@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FastPay Dashboard</title>
+
+  <link rel="stylesheet" href="dashboard.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <header class="header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-logo">F</div>
+        <span class="brand-name">FastPay</span>
+      </div>
+
+      <nav class="nav">
+        <a href="wallet.html" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">&#128179;</span>
+          <span>Wallet</span>
+        </a>
+        <a href="bills.html" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">&#128241;</span>
+          <span>Bills</span>
+        </a>
+        <a href="goals.html" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">&#127919;</span>
+          <span>Goals</span>
+        </a>
+        <a href="settings.html" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">&#9881;</span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="theme-toggle-btn" id="themeToggle" title="Toggle theme">
+          <span class="theme-icon" aria-hidden="true">D</span>
+        </button>
+
+        <a href="notification.html" class="notification-btn" aria-label="View notifications">
+          <span class="notification-icon" aria-hidden="true">&#128276;</span>
+          <span class="notification-badge">3</span>
+        </a>
+
+        <div class="user-avatar">
+          <a href="profile.html">
+            <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=User" alt="User">
+          </a>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <section class="welcome-section">
+        <div class="welcome-text">
+          <p class="welcome-kicker">Dashboard overview</p>
+          <h1 class="welcome-title">Welcome back, <span class="highlight">User</span></h1>
+          <p class="welcome-subtitle">Here&apos;s what&apos;s happening with your money today</p>
+          <div class="welcome-meta">
+            <span class="meta-pill">Secure wallet</span>
+            <span class="meta-pill">Live insights</span>
+            <span class="meta-pill">Goal tracking</span>
+          </div>
+        </div>
+
+        <div class="date-display">
+          <span><a href="calendar.html" class="date-icon" aria-label="Open calendar">&#128197;</a></span>
+          <div class="date-copy">
+            <span class="date-label">Today</span>
+            <span id="currentDate"></span>
+          </div>
+        </div>
+      </section>
+
+      <section class="hero-grid">
+        <div class="balance-card">
+          <div class="balance-card-bg"></div>
+          <div class="balance-orb orb-one" aria-hidden="true"></div>
+          <div class="balance-orb orb-two" aria-hidden="true"></div>
+
+          <div class="balance-content">
+            <div class="balance-header">
+              <div>
+                <p class="balance-kicker">Portfolio snapshot</p>
+                <span class="balance-label">Available Balance</span>
+              </div>
+              <button class="balance-toggle" title="Toggle visibility">
+                <span class="eye-icon" aria-hidden="true">H</span>
+              </button>
+            </div>
+
+            <h2 class="balance-amount" id="balance">&#8358;0.00</h2>
+
+            <div class="balance-growth">
+              <span class="growth-indicator positive">
+                <span class="growth-arrow" aria-hidden="true">&#8599;</span>
+                <span id="interest">&#8358;0</span>
+              </span>
+              <span class="growth-text">interest earned this month</span>
+            </div>
+
+            <div class="balance-highlights">
+              <div class="balance-chip">
+                <span class="chip-label">Auto-save</span>
+                <strong class="chip-value">On</strong>
+              </div>
+              <div class="balance-chip">
+                <span class="chip-label">Goal streak</span>
+                <strong class="chip-value">12 weeks</strong>
+              </div>
+              <div class="balance-chip">
+                <span class="chip-label">Next reward</span>
+                <strong class="chip-value">2 days</strong>
+              </div>
+            </div>
+
+            <div class="balance-footer">
+              <a href="saving.html" class="balance-link">
+                <span>View all savings</span>
+                <span class="arrow" aria-hidden="true">&#8594;</span>
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="quick-actions-grid">
+          <a href="deposit.html" class="action-card deposit-action">
+            <div class="action-icon-wrapper">
+              <span class="action-icon" aria-hidden="true">&#128179;</span>
+            </div>
+            <div class="action-content">
+              <h3 class="action-title">Deposit</h3>
+              <p class="action-description">Add money</p>
+              <span class="action-meta">Top up in seconds</span>
+            </div>
+            <span class="action-arrow" aria-hidden="true">&#8594;</span>
+          </a>
+
+          <a href="transfer.html" class="action-card withdraw-action">
+            <div class="action-icon-wrapper">
+              <span class="action-icon" aria-hidden="true">&#128184;</span>
+            </div>
+            <div class="action-content">
+              <h3 class="action-title">Transfer</h3>
+              <p class="action-description">Send money</p>
+              <span class="action-meta">Fast local payouts</span>
+            </div>
+            <span class="action-arrow" aria-hidden="true">&#8594;</span>
+          </a>
+
+          <a href="saving.html" class="action-card save-action">
+            <div class="action-icon-wrapper">
+              <span class="action-icon" aria-hidden="true">&#127919;</span>
+            </div>
+            <div class="action-content">
+              <h3 class="action-title">Save</h3>
+              <p class="action-description">Start saving</p>
+              <span class="action-meta">Build your next goal</span>
+            </div>
+            <span class="action-arrow" aria-hidden="true">&#8594;</span>
+          </a>
+
+          <a href="bills.html" class="action-card bills-action">
+            <div class="action-icon-wrapper">
+              <span class="action-icon" aria-hidden="true">&#9889;</span>
+            </div>
+            <div class="action-content">
+              <h3 class="action-title">Bills</h3>
+              <p class="action-description">Stay paid up</p>
+              <span class="action-meta">Utilities and airtime</span>
+            </div>
+            <span class="action-arrow" aria-hidden="true">&#8594;</span>
+          </a>
+        </div>
+      </section>
+
+      <section class="stats-section">
+        <div class="stat-card">
+          <div class="stat-icon green">&#128200;</div>
+          <div class="stat-content">
+            <p class="stat-label">Total Savings</p>
+            <h3 class="stat-value" id="totalSavings">&#8358;0.00</h3>
+            <p class="stat-note">Across all active plans</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon blue">&#128260;</div>
+          <div class="stat-content">
+            <p class="stat-label">Transactions</p>
+            <h3 class="stat-value" id="transactionCount">0</h3>
+            <p class="stat-note">This wallet has been active</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon purple">&#9889;</div>
+          <div class="stat-content">
+            <p class="stat-label">Active Goals</p>
+            <h3 class="stat-value" id="activeGoals">0</h3>
+            <p class="stat-note">Goals you&apos;re currently funding</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="stat-icon orange">&#127942;</div>
+          <div class="stat-content">
+            <p class="stat-label">Savings Rate</p>
+            <h3 class="stat-value" id="savingsRate">0%</h3>
+            <p class="stat-note">Your monthly saving momentum</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="insights-grid">
+        <div class="card chart-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3 class="card-title">Savings Performance</h3>
+              <p class="card-subtitle">Track your progress over time</p>
+            </div>
+
+            <div class="chart-filters">
+              <button class="filter-btn active" data-period="weekly">Weekly</button>
+              <button class="filter-btn" data-period="monthly">Monthly</button>
+              <button class="filter-btn" data-period="yearly">Yearly</button>
+            </div>
+          </div>
+
+          <div class="chart-container">
+            <canvas id="savingsChart"></canvas>
+          </div>
+        </div>
+
+        <div class="card activity-card">
+          <div class="card-header">
+            <div class="card-title-group">
+              <h3 class="card-title">Recent Activity</h3>
+              <p class="card-subtitle">Deposits, transfers, bills, and savings updates</p>
+            </div>
+            <a href="wallet.html" class="view-all-link">
+              <span>View all</span>
+              <span class="arrow" aria-hidden="true">&#8594;</span>
+            </a>
+          </div>
+
+          <div class="activity-ticker">
+            <ul id="activityList" class="activity-list"></ul>
+            <div class="empty-state" id="activityEmptyState">
+              <div class="empty-icon">&#128203;</div>
+              <p class="empty-text">No recent activity</p>
+              <p class="empty-subtext">Your transactions will appear here</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="ai-assistant" id="aiBot" title="FastPay AI Assistant">
+    <div class="ai-icon">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="ai-pulse"></div>
+  </div>
+
+  <script src="../js/fastpay-core.js"></script>
+  <script src="dashboard.js"></script>
+  <script src="push-notifications.js"></script>
+</body>
+</html>

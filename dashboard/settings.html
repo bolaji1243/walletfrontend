@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - FastPay</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="settings.css">
+  <style>
+    /* Password toggle button */
+    .password-wrapper { position: relative; }
+    .password-toggle {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 1rem;
+      opacity: 0.6;
+    }
+    .password-toggle:hover { opacity: 1; }
+    /* Message styling */
+    .password-message { margin-top: 10px; font-weight: 500; font-size: 0.9rem; }
+    .password-message.success { color: #28a745; }
+    .password-message.error { color: #dc3545; }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-logo">F</div>
+        <span class="brand-name">FastPay</span>
+      </div>
+      <nav class="nav">
+        <a href="dashboard.html" class="nav-link"><span class="nav-icon">📊</span>Dashboard</a>
+        <a href="saving.html" class="nav-link"><span class="nav-icon">💰</span>Savings</a>
+        <a href="ai.html" class="nav-link"><span class="nav-icon">🤖</span>AI Assistant</a>
+        <a href="profile.html" class="nav-link"><span class="nav-icon">👤</span>Profile</a>
+        <a href="settings.html" class="nav-link active"><span class="nav-icon">⚙️</span>Settings</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="settings-container">
+    <div class="page-header">
+      <h1 class="page-title">⚙️ Settings</h1>
+      <p class="page-subtitle">Manage your account preferences and security</p>
+    </div>
+
+    <div class="settings-layout">
+      <!-- Sidebar -->
+      <aside class="settings-sidebar">
+        <nav class="settings-nav">
+          <button class="settings-nav-item active" data-section="account">👤 Account</button>
+          <button class="settings-nav-item" data-section="security">🔒 Security</button>
+          <button class="settings-nav-item" data-section="notifications">🔔 Notifications</button>
+          <button class="settings-nav-item" data-section="privacy">🛡️ Privacy</button>
+          <button class="settings-nav-item" data-section="preferences">🎨 Preferences</button>
+          <button class="settings-nav-item" data-section="linked-accounts">🔗 Linked Accounts</button>
+        </nav>
+      </aside>
+
+      <!-- Content -->
+      <div class="settings-content">
+
+        <!-- Account Section -->
+        <section class="settings-section active" id="account-section">
+          <h2 class="section-title">Account Information</h2>
+          <div class="settings-card">
+            <form id="accountForm">
+              <div class="form-row">
+                <div class="form-group"><label for="firstName">First Name</label><input type="text" id="firstName" class="form-input" placeholder="John"></div>
+                <div class="form-group"><label for="lastName">Last Name</label><input type="text" id="lastName" class="form-input" placeholder="Doe"></div>
+              </div>
+              <div class="form-group"><label for="email">Email Address</label><input type="email" id="email" class="form-input" placeholder="john.doe@example.com"></div>
+              <div class="form-group"><label for="phone">Phone Number</label><input type="tel" id="phone" class="form-input" placeholder="+234 XXX XXX XXXX"></div>
+              <div class="form-group"><label for="dateOfBirth">Date of Birth</label><input type="date" id="dateOfBirth" class="form-input"></div>
+              <div class="form-group"><label for="address">Address</label><textarea id="address" class="form-input" rows="3" placeholder="Enter your address"></textarea></div>
+              <div class="form-actions">
+                <button type="submit" class="btn-primary">Save Changes</button>
+                <button type="button" class="btn-secondary" onclick="resetForm('accountForm')">Cancel</button>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- Security Section -->
+        <section class="settings-section" id="security-section">
+          <h2 class="section-title">Security Settings</h2>
+
+          <!-- Change Password -->
+          <div class="settings-card">
+            <h3 class="card-title">Change Password</h3>
+            <form id="passwordForm">
+              <div class="form-group password-group">
+                <label for="currentPassword">Current Password</label>
+                <div class="password-wrapper">
+                  <input type="password" id="currentPassword" class="form-input" placeholder="••••••••">
+                  <button type="button" class="password-toggle" data-target="currentPassword">👁️</button>
+                </div>
+              </div>
+              <div class="form-group password-group">
+                <label for="newPassword">New Password</label>
+                <div class="password-wrapper">
+                  <input type="password" id="newPassword" class="form-input" placeholder="••••••••">
+                  <button type="button" class="password-toggle" data-target="newPassword">👁️</button>
+                </div>
+              </div>
+              <div class="form-group password-group">
+                <label for="confirmPassword">Confirm New Password</label>
+                <div class="password-wrapper">
+                  <input type="password" id="confirmPassword" class="form-input" placeholder="••••••••">
+                  <button type="button" class="password-toggle" data-target="confirmPassword">👁️</button>
+                </div>
+              </div>
+              <div id="passwordMessage" class="password-message"></div>
+              <div class="form-actions">
+                <button type="submit" class="btn-primary">Update Password</button>
+              </div>
+            </form>
+          </div>
+
+          <!-- Two-Factor -->
+          <div class="settings-card">
+            <h3 class="card-title">Two-Factor Authentication</h3>
+            <p class="card-description">Add an extra layer of security to your account</p>
+            <div class="toggle-setting">
+              <div class="toggle-info"><span class="toggle-label">Enable 2FA</span><span class="toggle-description">Receive codes via SMS or authenticator app</span></div>
+              <label class="toggle-switch"><input type="checkbox" id="twoFactorToggle"><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+
+          <!-- Login History -->
+          <div class="settings-card">
+            <h3 class="card-title">Login History</h3>
+            <p class="card-description">Recent login activity on your account</p>
+            
+            <!-- Debug button - remove after testing -->
+            <button onclick="loadLoginHistory()" style="margin-bottom: 1rem; padding: 0.5rem 1rem; background: #3b82f6; color: white; border: none; border-radius: 4px; cursor: pointer;">
+              Reload History
+            </button>
+            
+            <div id="loginHistory" class="login-history-container">
+              <!-- Login history items will be dynamically inserted here -->
+            </div>
+          </div>
+        </section>
+        <!-- ⬆️ CRITICAL FIX: Added missing closing tag for security-section -->
+
+        <!-- Notifications Section -->
+        <section class="settings-section" id="notifications-section">
+          <h2 class="section-title">Notification Preferences</h2>
+          <div class="settings-card">
+            <h3 class="card-title">Email Notifications</h3>
+            <div class="toggle-setting">
+              <div class="toggle-info"><span class="toggle-label">Transaction Alerts</span></div>
+              <label class="toggle-switch"><input type="checkbox" id="emailTransactions"><span class="toggle-slider"></span></label>
+            </div>
+            <div class="toggle-setting">
+              <div class="toggle-info"><span class="toggle-label">Savings Goals</span></div>
+              <label class="toggle-switch"><input type="checkbox" id="emailSavings"><span class="toggle-slider"></span></label>
+            </div>
+            <div class="toggle-setting">
+              <div class="toggle-info"><span class="toggle-label">Marketing Emails</span></div>
+              <label class="toggle-switch"><input type="checkbox" id="emailMarketing"><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+
+          <div class="settings-card">
+            <h3 class="card-title">Push Notifications</h3>
+            <div class="toggle-setting">
+              <div class="toggle-info"><span class="toggle-label">Payment Received</span></div>
+              <label class="toggle-switch"><input type="checkbox" id="pushPayments"><span class="toggle-slider"></span></label>
+            </div>
+            <div class="toggle-setting">
+              <div class="toggle-info"><span class="toggle-label">Low Balance</span></div>
+              <label class="toggle-switch"><input type="checkbox" id="pushLowBalance"><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+        </section>
+
+        <!-- Privacy Section -->
+        <section class="settings-section" id="privacy-section">
+          <h2 class="section-title">Privacy & Data</h2>
+          <div class="settings-card">
+            <h3 class="card-title">Data Sharing</h3>
+            <div class="toggle-setting">
+              <div class="toggle-info"><span class="toggle-label">Share Usage Data</span></div>
+              <label class="toggle-switch"><input type="checkbox" id="shareUsageData"><span class="toggle-slider"></span></label>
+            </div>
+            <div class="toggle-setting">
+              <div class="toggle-info"><span class="toggle-label">Personalized Ads</span></div>
+              <label class="toggle-switch"><input type="checkbox" id="personalizedAds"><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+        </section>
+
+        <!-- Preferences Section -->
+        <section class="settings-section" id="preferences-section">
+          <h2 class="section-title">Preferences</h2>
+          <div class="settings-card">
+            <h3 class="card-title">Appearance</h3>
+            <div class="form-group"><label for="themeSelect">Theme</label><select id="themeSelect" class="form-input"><option value="light">Light</option><option value="dark">Dark</option><option value="auto">Auto (System)</option></select></div>
+          </div>
+        </section>
+
+        <!-- Linked Accounts Section -->
+        <section class="settings-section" id="linked-accounts-section">
+          <h2 class="section-title">Linked Accounts</h2>
+          <div class="settings-card">
+            <h3 class="card-title">Connected Services</h3>
+            <p class="card-description">Manage connected bank accounts and services</p>
+            <div class="toggle-setting">
+              <div class="toggle-info"><span class="toggle-label">Bank Account</span><span class="toggle-description">Connect your bank account for transfers</span></div>
+              <button class="btn-secondary">Connect</button>
+            </div>
+          </div>
+        </section>
+
+      </div>
+    </div>
+  </main>
+
+  <script src="../js/fastpay-core.js"></script>
+  <script src="settings.js"></script>
+</body>
+</html>

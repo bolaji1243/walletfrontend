@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Deposit | FastPay Wallet</title>
+  <link rel="stylesheet" href="deposit.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <!-- Animated Background -->
+  <div class="animated-bg">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+  </div>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-content">
+      <div class="brand">
+        <div class="logo-icon">💎</div>
+        <span class="brand-name">FastPay</span>
+      </div>
+      <nav class="nav-links">
+        <a href="dashboard.html" class="nav-link">
+          <span class="nav-icon">📊</span>
+          Dashboard
+        </a>
+        <a href="rewards.html" class="nav-link">
+          <span class="nav-icon">🏆</span>
+          Rewards
+        </a>
+        <a href="saving.html" class="nav-link">
+          <span class="nav-icon">💰</span>
+          Savings
+        </a>
+        <a href="#" class="nav-link">
+          <span class="nav-icon">⚙️</span>
+          Settings
+        </a>
+      </nav>
+      <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">
+        <span class="theme-icon">🌙</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main class="main-container">
+    <div class="content-wrapper">
+      
+      <!-- Page Title Section -->
+      <div class="page-title-section">
+        <div class="back-button" onclick="window.history.back()">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          Back
+        </div>
+        <h1 class="page-title">Fund Your Wallet</h1>
+        <p class="page-subtitle">Quick, secure, and instant deposits</p>
+      </div>
+
+      <!-- Deposit Card -->
+      <div class="deposit-card">
+        
+        <!-- Amount Input Section -->
+        <div class="amount-section">
+          <label class="section-label">
+            <span class="label-icon">💵</span>
+            Enter Amount
+          </label>
+          
+          <div class="amount-input-wrapper">
+            <span class="currency-symbol">₦</span>
+            <input
+              type="text"
+              id="amount"
+              class="amount-input"
+              placeholder="0.00"
+              inputmode="numeric"
+            />
+          </div>
+          
+          <div class="quick-amounts">
+            <button class="quick-amount-btn" data-amount="1000">₦1,000</button>
+            <button class="quick-amount-btn" data-amount="5000">₦5,000</button>
+            <button class="quick-amount-btn" data-amount="10000">₦10,000</button>
+            <button class="quick-amount-btn" data-amount="50000">₦50,000</button>
+          </div>
+        </div>
+
+        <!-- Payment Method Section -->
+        <div class="payment-method-section">
+          <label class="section-label">
+            <span class="label-icon">💳</span>
+            Payment Method
+          </label>
+          
+          <div class="payment-methods">
+            <div class="payment-option active" data-method="paystack">
+              <div class="payment-radio">
+                <div class="radio-dot"></div>
+              </div>
+              <div class="payment-info">
+                <div class="payment-name">Card Payment</div>
+                <div class="payment-desc">Powered by Paystack</div>
+              </div>
+              <div class="payment-icon">💳</div>
+            </div>
+            
+            <div class="payment-option disabled" data-method="bank">
+              <div class="payment-radio">
+                <div class="radio-dot"></div>
+              </div>
+              <div class="payment-info">
+                <div class="payment-name">Bank Transfer</div>
+                <div class="payment-desc">Coming Soon</div>
+              </div>
+              <div class="payment-icon">🏦</div>
+            </div>
+            
+            <div class="payment-option disabled" data-method="ussd">
+              <div class="payment-radio">
+                <div class="radio-dot"></div>
+              </div>
+              <div class="payment-info">
+                <div class="payment-name">USSD</div>
+                <div class="payment-desc">Coming Soon</div>
+              </div>
+              <div class="payment-icon">📱</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Transaction Summary -->
+        <div class="transaction-summary">
+          <div class="summary-header">
+            <span class="label-icon">📋</span>
+            Transaction Summary
+          </div>
+          
+          <div class="summary-items">
+            <div class="summary-item">
+              <span class="summary-label">Amount</span>
+              <span class="summary-value" id="summaryAmount">₦0.00</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Processing Fee</span>
+              <span class="summary-value">As applied by Paystack</span>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-item total">
+              <span class="summary-label">You'll be charged</span>
+              <span class="summary-value" id="summaryTotal">₦0.00</span>
+            </div>
+          </div>
+          
+          <div class="info-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="16" x2="12" y2="12"/>
+              <line x1="12" y1="8" x2="12.01" y2="8"/>
+            </svg>
+            <span>Minimum deposit: ₦100 • Instant processing</span>
+          </div>
+        </div>
+
+        <!-- Action Button -->
+        <button class="deposit-btn" id="payBtn">
+          <span class="btn-text">Continue to Payment</span>
+          <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+
+        <!-- Status Message -->
+        <div id="depositStatus" class="status-message"></div>
+
+        <!-- Security Badge -->
+        <div class="security-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+          </svg>
+          <span>Secured by 256-bit SSL encryption</span>
+        </div>
+      </div>
+
+      <!-- Features Grid -->
+      <div class="features-grid">
+        <div class="feature-card">
+          <div class="feature-icon">⚡</div>
+          <div class="feature-title">Instant Credit</div>
+          <div class="feature-desc">Funds reflect immediately</div>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🔒</div>
+          <div class="feature-title">Secure Payment</div>
+          <div class="feature-desc">Bank-level security</div>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">💯</div>
+          <div class="feature-title">Zero Hidden Fees</div>
+          <div class="feature-desc">Transparent pricing</div>
+        </div>
+        
+        <div class="feature-card">
+          <div class="feature-icon">🎁</div>
+          <div class="feature-title">Earn Rewards</div>
+          <div class="feature-desc">Get points on deposits</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Success Modal -->
+  <div class="modal" id="successModal">
+    <div class="modal-overlay"></div>
+    <div class="modal-content">
+      <div class="success-animation">
+        <div class="success-checkmark">
+          <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+            <polyline points="22 4 12 14.01 9 11.01"/>
+          </svg>
+        </div>
+      </div>
+      <h2 class="modal-title">Deposit Successful!</h2>
+      <p class="modal-message">Your wallet has been funded</p>
+      <button class="modal-btn" onclick="closeSuccessModal()">Continue</button>
+    </div>
+  </div>
+
+  <script src="../js/fastpay-core.js"></script>
+  <script src="deposit.js"></script>
+</body>
+</html>

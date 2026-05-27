@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FastPay - Sign Up</title>
+  <meta name="description" content="Create a FastPay account for secure savings and financial growth.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/signup.css">
+</head>
+<body>
+  <section class="signup-section">
+    <div class="signup-container">
+      <div class="signup-phone" aria-hidden="true">
+        <div class="phone">
+          <div class="phone-screen">
+            <div class="app-header">
+              <span class="app-brand">FastPay</span>
+              <span class="app-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" focusable="false">
+                  <path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm6-6V11a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2Zm-2 1H8v-6a4 4 0 1 1 8 0v6Z"/>
+                </svg>
+              </span>
+            </div>
+
+            <div class="app-body">
+              <div class="slider">
+                <div class="slides">
+                  <div class="slide active">
+                    <div class="balance-card">
+                      <p>Welcome to FastPay</p>
+                      <span class="muted">Save smarter and grow with confidence.</span>
+                      <div class="balance-amount" data-count="100000">₦0</div>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <div class="wallet-card">
+                      <strong>Flexible Savings</strong>
+                      <p class="muted">Withdraw when you need it.</p>
+                    </div>
+                  </div>
+
+                  <div class="slide">
+                    <div class="wallet-card">
+                      <strong>Locked Savings</strong>
+                      <p class="muted">Earn more on money you can leave untouched.</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="signup-form">
+        <h2>Create your FastPay account</h2>
+        <p>Fill in your details below to get started securely.</p>
+
+        <form id="registerForm" novalidate>
+          <div class="form-group">
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" name="firstName" required>
+            <span id="firstNameError" class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="middleName">Middle Name <span class="optional">(Optional)</span></label>
+            <input type="text" id="middleName" name="middleName">
+            <span id="middleNameError" class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" name="lastName" required>
+            <span id="lastNameError" class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required autocomplete="email">
+            <span id="emailError" class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" required autocomplete="tel">
+            <span id="phoneError" class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password" required minlength="6" autocomplete="new-password">
+            <span id="passwordError" class="field-error"></span>
+          </div>
+
+          <div class="form-group">
+            <label for="pin">4-Digit PIN</label>
+            <input type="password" id="pin" name="pin" required pattern="\d{4}" maxlength="4" inputmode="numeric">
+            <span id="pinError" class="field-error"></span>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Sign Up</button>
+          <p id="formMessage" class="form-message" role="status" aria-live="polite"></p>
+        </form>
+
+        <p class="login-link">
+          Already have an account?
+          <a href="login.html">Login</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <script src="../js/fastpay-core.js"></script>
+  <script src="js/signup.js"></script>
+</body>
+</html>

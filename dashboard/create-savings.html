@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Savings | FastPay</title>
+  <link rel="stylesheet" href="create-savings.css" />
+</head>
+<body>
+  <div class="ambient-bg">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
+  </div>
+
+  <main class="page-shell">
+    <section class="hero-panel">
+      <div class="hero-copy">
+        <a href="saving.html" class="back-link">
+          <span class="back-icon">←</span>
+          <span>Back to Savings</span>
+        </a>
+        <p class="eyebrow">Savings Setup</p>
+        <h1>Create Savings</h1>
+        <p class="hero-text">Choose the savings plan that matches how you want to grow and access your money.</p>
+      </div>
+
+      <div class="hero-metrics">
+        <div class="metric-card">
+          <span class="metric-label">Flexible</span>
+          <strong class="metric-value">Fast Access</strong>
+          <span class="metric-note">Best for short-term saving and emergency funds.</span>
+        </div>
+        <div class="metric-card gold">
+          <span class="metric-label">Fixed</span>
+          <strong class="metric-value">Higher Yield</strong>
+          <span class="metric-note">Best for disciplined saving with a maturity date.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="plans-grid">
+      <article class="plan-card flexible-card" onclick="goFlexible()">
+        <div class="plan-top">
+          <span class="plan-badge flexible">Flexible</span>
+          <div class="plan-icon">FL</div>
+        </div>
+
+        <div class="plan-copy">
+          <h2>Flexible Savings</h2>
+          <p>Save anytime and withdraw whenever you need. Ideal for short-term goals, bills, and emergency cash reserves.</p>
+        </div>
+
+        <div class="plan-feature-list">
+          <div class="feature-item">
+            <span class="feature-mark">✔</span>
+            <span>Withdraw anytime</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-mark">✔</span>
+            <span>No lock period</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-mark">✔</span>
+            <span>Earn interest as you save</span>
+          </div>
+        </div>
+
+        <div class="plan-footer">
+          <div class="plan-summary">
+            <span class="summary-label">Recommended for</span>
+            <span class="summary-value">Emergency funds and everyday goals</span>
+          </div>
+          <button type="button" class="plan-button">Create Flexible Savings</button>
+        </div>
+      </article>
+
+      <article class="plan-card fixed-card" onclick="goFixed()">
+        <div class="plan-top">
+          <span class="plan-badge fixed">Fixed</span>
+          <div class="plan-icon gold">FX</div>
+        </div>
+
+        <div class="plan-copy">
+          <h2>Fixed Savings</h2>
+          <p>Lock your money for a selected duration and enjoy better returns until maturity with disciplined saving.</p>
+        </div>
+
+        <div class="plan-feature-list">
+          <div class="feature-item">
+            <span class="feature-mark lock">🔒</span>
+            <span>Locked till maturity</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-mark growth">📈</span>
+            <span>Higher interest potential</span>
+          </div>
+          <div class="feature-item">
+            <span class="feature-mark time">⏳</span>
+            <span>Choose your lock duration</span>
+          </div>
+        </div>
+
+        <div class="plan-footer">
+          <div class="plan-summary">
+            <span class="summary-label">Recommended for</span>
+            <span class="summary-value">Planned purchases and longer-term goals</span>
+          </div>
+          <button type="button" class="plan-button gold">Create Fixed Savings</button>
+        </div>
+      </article>
+    </section>
+  </main>
+
+  <script>
+    function goFlexible() {
+      window.location.href = "create-flexible.html";
+    }
+
+    function goFixed() {
+      window.location.href = "create-fixed.html";
+    }
+  </script>
+</body>
+</html>

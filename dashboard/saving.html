@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Savings Dashboard | FastPay</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="saving.css">
+
+  <!-- Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- ============= HEADER ============= -->
+  <header class="header">
+    <div class="header-container">
+
+      <div class="brand">
+        <div class="brand-logo">F</div>
+        <span class="brand-name">FastPay</span>
+      </div>
+
+      <nav class="nav">
+        <a href="dashboard.html" class="nav-link">
+          <span class="nav-icon">📊</span>
+          <span>Overview</span>
+        </a>
+        <a href="wallet.html" class="nav-link">
+          <span class="nav-icon">💳</span>
+          <span>Wallet</span>
+        </a>
+        <a href="saving.html" class="nav-link active">
+          <span class="nav-icon">💰</span>
+          <span>Savings</span>
+        </a>
+        <a href="settings.html" class="nav-link">
+          <span class="nav-icon">⚙️</span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="notification-btn">
+          <span class="notification-icon">🔔</span>
+          <span class="notification-badge">3</span>
+        </button>
+        <div class="user-avatar">
+          <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=User" alt="User">
+        </div>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- ============= MAIN CONTENT ============= -->
+  <main class="main">
+    <div class="container">
+
+      <!-- Page Header -->
+      <section class="page-header">
+        <div class="page-header-content">
+          <h1 class="page-title">Savings</h1>
+          <p class="page-subtitle">Manage and grow your savings effortlessly</p>
+        </div>
+        <button class="create-savings-btn primary" id="createSavingsBtn">
+          <span class="btn-icon">+</span>
+          <span>Create Savings</span>
+        </button>
+      </section>
+
+      <!-- Total Savings Overview -->
+      <section class="savings-overview">
+
+        <!-- Main Balance Card -->
+        <div class="overview-card main-balance">
+          <div class="overview-icon-wrapper">
+            <div class="overview-icon">
+              <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+                <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+              </svg>
+            </div>
+          </div>
+          <div class="overview-content">
+            <p class="overview-label">Total Savings Balance</p>
+            <h2 class="overview-amount" id="totalSavings">₦0.00</h2>
+            <div class="overview-badge">
+              <span class="badge-icon">📈</span>
+              <span>Growing steadily</span>
+            </div>
+          </div>
+          <div class="overview-decoration"></div>
+        </div>
+
+        <!-- Stats Column -->
+        <div class="overview-stats">
+
+          <div class="stat-item">
+            <div class="stat-icon blue">
+              <span>💎</span>
+            </div>
+            <div class="stat-content">
+              <p class="stat-label">Active Savings</p>
+              <h3 class="stat-value" id="activeSavingsCount">0</h3>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-icon purple">
+              <span>🔒</span>
+            </div>
+            <div class="stat-content">
+              <p class="stat-label">Locked Savings</p>
+              <h3 class="stat-value" id="lockedSavingsCount">0</h3>
+            </div>
+          </div>
+
+          <div class="stat-item">
+            <div class="stat-icon gold">
+              <span>⚡</span>
+            </div>
+            <div class="stat-content">
+              <p class="stat-label">Interest Earned</p>
+              <h3 class="stat-value" id="interestEarned">₦0.00</h3>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Info Banner -->
+      <div class="info-banner">
+        <div class="info-icon">ℹ️</div>
+        <div class="info-content">
+          <p><strong>Important:</strong> Withdrawals are processed from individual savings wallets. Fixed savings remain locked until maturity date.</p>
+        </div>
+      </div>
+
+      <!-- ===== YOUR SAVINGS SECTION ===== -->
+      <section class="savings-section">
+
+        <!-- Section Header: Title + Count + Button all on one row -->
+        <div class="section-header">
+          <div class="section-title-group">
+            <h2 class="section-title">Your Savings</h2>
+            <span class="section-count" id="savingsCount">0 Plans</span>
+          </div>
+          <button class="create-savings-btn secondary" id="createSavingsBtnAlt">
+            <span class="btn-icon">+</span>
+            <span>New Savings</span>
+          </button>
+        </div>
+
+        <!-- Savings Cards Grid (populated by saving.js) -->
+        <div class="savings-grid" id="savingsCards"></div>
+
+        <!-- Empty State (shown by JS when no savings exist) -->
+        <div class="empty-state" id="emptySavings">
+          <div class="empty-illustration">
+            <div class="empty-icon-circle">
+              <span class="empty-icon">💰</span>
+            </div>
+          </div>
+          <h3 class="empty-title">No savings yet</h3>
+          <p class="empty-description">Start your savings journey today and watch your money grow with competitive interest rates</p>
+          <button class="create-savings-btn primary large" id="createSavingsBtnEmpty">
+            <span class="btn-icon">+</span>
+            <span>Create Your First Savings</span>
+          </button>
+        </div>
+
+      </section>
+
+      <!-- ===== RECENT ACTIVITY SECTION ===== -->
+      <section class="activity-section">
+
+        <div class="section-header">
+          <div class="section-title-group">
+            <h2 class="section-title">Recent Activity</h2>
+            <p class="section-subtitle">Track your savings transactions</p>
+          </div>
+          <a href="savingactivity.html" class="view-all-link">
+            <span>View All</span>
+            <span class="arrow">→</span>
+          </a>
+        </div>
+
+        <!-- Activity list (populated by saving.js) -->
+        <div class="activity-list" id="historyList"></div>
+
+        <!-- Empty Activity State (shown by JS when no history) -->
+        <div class="empty-activity" id="emptyActivity">
+          <div class="empty-activity-icon">📋</div>
+          <p class="empty-activity-text">No activity yet</p>
+          <p class="empty-activity-subtext">Your savings transactions will appear here</p>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+  <!-- ============= AI ASSISTANT ============= -->
+  <div class="ai-assistant" id="aiBot" title="FastPay AI Assistant">
+    <div class="ai-icon">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M2 17L12 22L22 17" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+        <path d="M2 12L12 17L22 12" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="ai-pulse"></div>
+  </div>
+
+  <!-- ============= SCRIPTS ============= -->
+  <script src="../js/fastpay-core.js"></script>
+  <script src="saving.js"></script>
+  <script>
+    function goToCreateSavings() {
+      window.location.href = "create-savings.html";
+    }
+
+    function goToAI() {
+      window.location.href = "ai.html";
+    }
+
+    document.getElementById("createSavingsBtn")?.addEventListener("click", goToCreateSavings);
+    document.getElementById("createSavingsBtnAlt")?.addEventListener("click", goToCreateSavings);
+    document.getElementById("createSavingsBtnEmpty")?.addEventListener("click", goToCreateSavings);
+    document.getElementById("aiBot")?.addEventListener("click", goToAI);
+  </script>
+
+</body>
+</html>

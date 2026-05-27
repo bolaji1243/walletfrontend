@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Pay Bills — FastPay</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="bills.css"/>
+  <link rel="stylesheet" href="pin-modal.css" />
+</head>
+<body>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="main-header">
+    <div class="header-content">
+      <a href="/" class="brand">
+        <div class="logo-icon">⚡</div>
+        <span class="brand-name">FastPay</span>
+      </a>
+      <nav class="nav-links">
+        <a href="dashboard.html" class="nav-link">🏠 Dashboard</a>
+        <a href="bills.html"     class="nav-link active">📱 Bills</a>
+        <a href="goals.html"     class="nav-link">🎯 Goals</a>
+        <a href="history.html"   class="nav-link">🕐 History</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+
+    <!-- Page Header -->
+    <div class="page-header">
+      <div class="page-header-icon">🧾</div>
+      <div>
+        <h1>Pay Bills</h1>
+        <p>Airtime, data, electricity, cable &amp; more — all in one place</p>
+      </div>
+    </div>
+
+    <!-- Wallet Balance -->
+    <div class="balance-card">
+      <div class="balance-left">
+        <div class="balance-icon">💼</div>
+        <div>
+          <div class="balance-label">Wallet Balance</div>
+          <div class="balance-amount" id="walletBalance">Loading...</div>
+        </div>
+      </div>
+      <div class="balance-badge">AVAILABLE</div>
+    </div>
+
+    <!-- Category Tabs -->
+    <div class="category-tabs">
+      <button class="cat-tab active" onclick="switchPanel('airtime', this)">
+        <span class="cat-icon">📶</span>
+        <span class="cat-label">Airtime</span>
+      </button>
+      <button class="cat-tab" onclick="switchPanel('data', this)">
+        <span class="cat-icon">📡</span>
+        <span class="cat-label">Data</span>
+      </button>
+      <button class="cat-tab" onclick="switchPanel('electricity', this)">
+        <span class="cat-icon">⚡</span>
+        <span class="cat-label">Electricity</span>
+      </button>
+      <button class="cat-tab" onclick="switchPanel('cable', this)">
+        <span class="cat-icon">📺</span>
+        <span class="cat-label">Cable TV</span>
+      </button>
+      <button class="cat-tab" onclick="switchPanel('internet', this)">
+        <span class="cat-icon">🌐</span>
+        <span class="cat-label">Internet</span>
+      </button>
+      <button class="cat-tab" onclick="switchPanel('education', this)">
+        <span class="cat-icon">🎓</span>
+        <span class="cat-label">Education</span>
+      </button>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PANEL: AIRTIME
+    ══════════════════════════════════════ -->
+    <div class="card bill-panel active" id="panel-airtime">
+      <div class="panel-header">
+        <div class="panel-icon">📶</div>
+        <div>
+          <div class="panel-title">Buy Airtime</div>
+          <div class="panel-subtitle">Instant top-up to any network</div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="section-label">Select Network</div>
+        <div class="networks">
+          <button class="network-btn" data-service="mtn"
+            onclick="selectItem(this,'airtime-net'); syncSummary('airtime')">
+            <div class="net-circle net-mtn">MTN</div>
+            <span class="net-name">MTN</span>
+          </button>
+          <button class="network-btn" data-service="airtel"
+            onclick="selectItem(this,'airtime-net'); syncSummary('airtime')">
+            <div class="net-circle net-airtel">AIR</div>
+            <span class="net-name">Airtel</span>
+          </button>
+          <button class="network-btn" data-service="glo"
+            onclick="selectItem(this,'airtime-net'); syncSummary('airtime')">
+            <div class="net-circle net-glo">GLO</div>
+            <span class="net-name">Glo</span>
+          </button>
+          <button class="network-btn" data-service="etisalat"
+            onclick="selectItem(this,'airtime-net'); syncSummary('airtime')">
+            <div class="net-circle net-9mobile">9M</div>
+            <span class="net-name">9mobile</span>
+          </button>
+        </div>
+        <div class="field-error" id="airtime-net-error">⚠ Please select a network.</div>
+      </div>
+
+      <div class="card-section">
+        <div class="form-group">
+          <label>Phone Number</label>
+          <div class="input-wrap">
+            <span class="input-icon">📞</span>
+            <input type="tel" id="airtime-phone" placeholder="e.g. 08012345678" maxlength="11"
+              oninput="clearErr('airtime-phone'); syncSummary('airtime')" />
+          </div>
+          <div class="field-error" id="airtime-phone-error">⚠ Enter a valid 11-digit Nigerian number.</div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="form-group">
+          <label>Amount (₦)</label>
+          <div class="input-wrap">
+            <span class="input-icon">₦</span>
+            <input type="number" id="airtime-amount" placeholder="Minimum ₦50" min="50" max="50000"
+              oninput="clearErr('airtime-amount'); syncSummary('airtime')" />
+          </div>
+          <div class="field-error" id="airtime-amount-error">⚠ Amount must be between ₦50 and ₦50,000.</div>
+          <div class="quick-amounts">
+            <button class="qa-btn" onclick="qa('airtime-amount',100,'airtime')">₦100</button>
+            <button class="qa-btn" onclick="qa('airtime-amount',200,'airtime')">₦200</button>
+            <button class="qa-btn" onclick="qa('airtime-amount',500,'airtime')">₦500</button>
+            <button class="qa-btn" onclick="qa('airtime-amount',1000,'airtime')">₦1,000</button>
+            <button class="qa-btn" onclick="qa('airtime-amount',2000,'airtime')">₦2,000</button>
+            <button class="qa-btn" onclick="qa('airtime-amount',5000,'airtime')">₦5,000</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-section summary-section" id="airtime-summary">
+        <div class="summary-inner">
+          <div class="summary-title">Order Summary</div>
+          <div class="summary-row"><span class="s-label">Network</span><span class="s-value" id="airtime-s-net">—</span></div>
+          <div class="summary-row"><span class="s-label">Recipient</span><span class="s-value" id="airtime-s-phone">—</span></div>
+          <div class="summary-row total"><span class="s-label">Total Debit</span><span class="s-value" id="airtime-s-amount">—</span></div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn-secondary" onclick="resetPanel('airtime')">Clear</button>
+        <button class="btn-primary" id="airtime-pay-btn" onclick="submitPayment('airtime')">
+          <span class="btn-text">Top Up Now →</span>
+          <div class="spinner"></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PANEL: DATA
+    ══════════════════════════════════════ -->
+    <div class="card bill-panel" id="panel-data">
+      <div class="panel-header">
+        <div class="panel-icon">📡</div>
+        <div>
+          <div class="panel-title">Buy Data Bundle</div>
+          <div class="panel-subtitle">Choose your network and data plan</div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="section-label">Select Network</div>
+        <div class="networks">
+          <!-- FIX: added syncSummary('data') after loadVariations on every network btn -->
+          <button class="network-btn" data-service="mtn-data"
+            onclick="selectItem(this,'data-net'); loadVariations('mtn-data','data-plans'); syncSummary('data')">
+            <div class="net-circle net-mtn">MTN</div><span class="net-name">MTN</span>
+          </button>
+          <button class="network-btn" data-service="airtel-data"
+            onclick="selectItem(this,'data-net'); loadVariations('airtel-data','data-plans'); syncSummary('data')">
+            <div class="net-circle net-airtel">AIR</div><span class="net-name">Airtel</span>
+          </button>
+          <button class="network-btn" data-service="glo-data"
+            onclick="selectItem(this,'data-net'); loadVariations('glo-data','data-plans'); syncSummary('data')">
+            <div class="net-circle net-glo">GLO</div><span class="net-name">Glo</span>
+          </button>
+          <button class="network-btn" data-service="etisalat-data"
+            onclick="selectItem(this,'data-net'); loadVariations('etisalat-data','data-plans'); syncSummary('data')">
+            <div class="net-circle net-9mobile">9M</div><span class="net-name">9mobile</span>
+          </button>
+        </div>
+        <div class="field-error" id="data-net-error">⚠ Please select a network.</div>
+      </div>
+
+      <div class="card-section">
+        <div class="form-group">
+          <label>Data Plan</label>
+          <!-- FIX: wrap id matches what loadVariations looks for: selectId + "-wrap" = "data-plans-wrap" -->
+          <div class="variation-wrap" id="data-plans-wrap">
+            <div class="variation-loading">
+              <div class="spinner" style="display:block;border-top-color:var(--primary-light)"></div>
+              Loading plans...
+            </div>
+            <select id="data-plans" onchange="syncSummary('data')">
+              <option value="">— Select a network first —</option>
+            </select>
+          </div>
+          <div class="field-error" id="data-plans-error">⚠ Please select a data plan.</div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="form-group">
+          <label>Phone Number</label>
+          <div class="input-wrap">
+            <span class="input-icon">📞</span>
+            <input type="tel" id="data-phone" placeholder="e.g. 08012345678" maxlength="11"
+              oninput="clearErr('data-phone'); syncSummary('data')" />
+          </div>
+          <div class="field-error" id="data-phone-error">⚠ Enter a valid 11-digit Nigerian number.</div>
+        </div>
+      </div>
+
+      <div class="card-section summary-section" id="data-summary">
+        <div class="summary-inner">
+          <div class="summary-title">Order Summary</div>
+          <div class="summary-row"><span class="s-label">Network</span><span class="s-value" id="data-s-net">—</span></div>
+          <div class="summary-row"><span class="s-label">Plan</span><span class="s-value" id="data-s-plan">—</span></div>
+          <div class="summary-row"><span class="s-label">Recipient</span><span class="s-value" id="data-s-phone">—</span></div>
+          <div class="summary-row total"><span class="s-label">Total Debit</span><span class="s-value" id="data-s-amount">—</span></div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn-secondary" onclick="resetPanel('data')">Clear</button>
+        <button class="btn-primary" id="data-pay-btn" onclick="submitPayment('data')">
+          <span class="btn-text">Buy Data →</span>
+          <div class="spinner"></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PANEL: ELECTRICITY
+    ══════════════════════════════════════ -->
+    <div class="card bill-panel" id="panel-electricity">
+      <div class="panel-header">
+        <div class="panel-icon">⚡</div>
+        <div>
+          <div class="panel-title">Pay Electricity Bill</div>
+          <div class="panel-subtitle">Recharge your meter instantly</div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="section-label">Select Disco</div>
+        <div class="providers-grid">
+          <!-- FIX: added syncSummary('electricity') to all provider btns -->
+          <button class="provider-btn" data-service="ikeja-electric"
+            onclick="selectItem(this,'elec-provider'); syncSummary('electricity')">
+            <div class="provider-circle">🏙️</div><span class="prov-name">Ikeja Electric</span>
+          </button>
+          <button class="provider-btn" data-service="eko-electric"
+            onclick="selectItem(this,'elec-provider'); syncSummary('electricity')">
+            <div class="provider-circle">🌆</div><span class="prov-name">Eko Electric</span>
+          </button>
+          <button class="provider-btn" data-service="abuja-electric"
+            onclick="selectItem(this,'elec-provider'); syncSummary('electricity')">
+            <div class="provider-circle">🏛️</div><span class="prov-name">Abuja Electric</span>
+          </button>
+          <button class="provider-btn" data-service="kano-electric"
+            onclick="selectItem(this,'elec-provider'); syncSummary('electricity')">
+            <div class="provider-circle">🕌</div><span class="prov-name">Kano Electric</span>
+          </button>
+          <button class="provider-btn" data-service="phed"
+            onclick="selectItem(this,'elec-provider'); syncSummary('electricity')">
+            <div class="provider-circle">🌴</div><span class="prov-name">PHED</span>
+          </button>
+          <button class="provider-btn" data-service="eedc"
+            onclick="selectItem(this,'elec-provider'); syncSummary('electricity')">
+            <div class="provider-circle">⚙️</div><span class="prov-name">EEDC</span>
+          </button>
+        </div>
+        <div class="field-error" id="elec-provider-error">⚠ Please select your electricity provider.</div>
+      </div>
+
+      <div class="card-section">
+        <div class="section-label">Meter Type</div>
+        <div class="meter-toggle">
+          <button class="meter-btn active" data-type="prepaid"  onclick="selectMeterType(this)">🔋 Prepaid</button>
+          <button class="meter-btn"        data-type="postpaid" onclick="selectMeterType(this)">📋 Postpaid</button>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="form-group">
+          <label>Meter Number</label>
+          <div class="input-wrap">
+            <span class="input-icon">🔢</span>
+            <input type="text" id="elec-meter" placeholder="Enter meter number"
+              oninput="clearErr('elec-meter'); clearValidateResult('elec'); syncSummary('electricity')" />
+            <button class="validate-btn" onclick="validateMeter()">Verify</button>
+          </div>
+          <div class="field-error" id="elec-meter-error">⚠ Meter number is required.</div>
+          <div class="validate-result" id="elec-validate-result">
+            <div class="v-icon">✅</div>
+            <div>
+              <div class="v-name" id="elec-customer-name">Customer Name</div>
+              <div class="v-label">Meter verified successfully</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="form-group">
+          <label>Phone Number</label>
+          <div class="input-wrap">
+            <span class="input-icon">📞</span>
+            <input type="tel" id="elec-phone" placeholder="e.g. 08012345678" maxlength="11"
+              oninput="clearErr('elec-phone'); syncSummary('electricity')" />
+          </div>
+          <div class="field-error" id="elec-phone-error">⚠ Enter a valid 11-digit Nigerian number.</div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="form-group">
+          <label>Amount (₦)</label>
+          <div class="input-wrap">
+            <span class="input-icon">₦</span>
+            <input type="number" id="elec-amount" placeholder="Minimum ₦1,000" min="1000" max="1000000"
+              oninput="clearErr('elec-amount'); syncSummary('electricity')" />
+          </div>
+          <div class="field-error" id="elec-amount-error">⚠ Amount must be at least ₦1,000.</div>
+          <div class="quick-amounts">
+            <button class="qa-btn" onclick="qa('elec-amount',1000,'electricity')">₦1,000</button>
+            <button class="qa-btn" onclick="qa('elec-amount',2000,'electricity')">₦2,000</button>
+            <button class="qa-btn" onclick="qa('elec-amount',5000,'electricity')">₦5,000</button>
+            <button class="qa-btn" onclick="qa('elec-amount',10000,'electricity')">₦10,000</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-section summary-section" id="electricity-summary">
+        <div class="summary-inner">
+          <div class="summary-title">Order Summary</div>
+          <div class="summary-row"><span class="s-label">Provider</span><span class="s-value" id="elec-s-prov">—</span></div>
+          <div class="summary-row"><span class="s-label">Meter</span><span class="s-value" id="elec-s-meter">—</span></div>
+          <div class="summary-row"><span class="s-label">Type</span><span class="s-value" id="elec-s-type">Prepaid</span></div>
+          <div class="summary-row total"><span class="s-label">Total Debit</span><span class="s-value" id="elec-s-amount">—</span></div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn-secondary" onclick="resetPanel('electricity')">Clear</button>
+        <button class="btn-primary" id="electricity-pay-btn" onclick="submitPayment('electricity')">
+          <span class="btn-text">Pay Now →</span>
+          <div class="spinner"></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PANEL: CABLE TV
+    ══════════════════════════════════════ -->
+    <div class="card bill-panel" id="panel-cable">
+      <div class="panel-header">
+        <div class="panel-icon">📺</div>
+        <div>
+          <div class="panel-title">Pay Cable TV</div>
+          <div class="panel-subtitle">Renew your subscription instantly</div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="section-label">Select Provider</div>
+        <div class="providers-grid-2">
+          <!-- FIX: added syncSummary('cable') to all cable provider btns -->
+          <button class="provider-btn" data-service="dstv"
+            onclick="selectItem(this,'cable-provider'); loadVariations('dstv','cable-plans'); syncSummary('cable')">
+            <div class="provider-circle">📡</div><span class="prov-name">DStv</span>
+          </button>
+          <button class="provider-btn" data-service="gotv"
+            onclick="selectItem(this,'cable-provider'); loadVariations('gotv','cable-plans'); syncSummary('cable')">
+            <div class="provider-circle">📺</div><span class="prov-name">GOtv</span>
+          </button>
+          <button class="provider-btn" data-service="startimes"
+            onclick="selectItem(this,'cable-provider'); loadVariations('startimes','cable-plans'); syncSummary('cable')">
+            <div class="provider-circle">⭐</div><span class="prov-name">Startimes</span>
+          </button>
+          <button class="provider-btn" data-service="showmax"
+            onclick="selectItem(this,'cable-provider'); loadVariations('showmax','cable-plans'); syncSummary('cable')">
+            <div class="provider-circle">🎬</div><span class="prov-name">Showmax</span>
+          </button>
+        </div>
+        <div class="field-error" id="cable-provider-error">⚠ Please select a TV provider.</div>
+      </div>
+
+      <div class="card-section">
+        <div class="form-group">
+          <label>Smart Card / IUC Number</label>
+          <div class="input-wrap">
+            <span class="input-icon">💳</span>
+            <input type="text" id="cable-card" placeholder="Enter smartcard number"
+              oninput="clearErr('cable-card'); clearValidateResult('cable'); syncSummary('cable')" />
+            <button class="validate-btn" onclick="validateSmartCard()">Verify</button>
+          </div>
+          <div class="field-error" id="cable-card-error">⚠ Smart card number is required.</div>
+          <div class="validate-result" id="cable-validate-result">
+            <div class="v-icon">✅</div>
+            <div>
+              <div class="v-name" id="cable-customer-name">Customer Name</div>
+              <div class="v-label">Smart card verified successfully</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="form-group">
+          <label>Subscription Plan</label>
+          <div class="variation-wrap" id="cable-plans-wrap">
+            <div class="variation-loading">
+              <div class="spinner" style="display:block;border-top-color:var(--primary-light)"></div>
+              Loading plans...
+            </div>
+            <select id="cable-plans" onchange="syncSummary('cable')">
+              <option value="">— Select a provider first —</option>
+            </select>
+          </div>
+          <div class="field-error" id="cable-plans-error">⚠ Please select a subscription plan.</div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="form-group">
+          <label>Phone Number</label>
+          <div class="input-wrap">
+            <span class="input-icon">📞</span>
+            <input type="tel" id="cable-phone" placeholder="e.g. 08012345678" maxlength="11"
+              oninput="clearErr('cable-phone'); syncSummary('cable')" />
+          </div>
+          <div class="field-error" id="cable-phone-error">⚠ Enter a valid 11-digit Nigerian number.</div>
+        </div>
+      </div>
+
+      <div class="card-section summary-section" id="cable-summary">
+        <div class="summary-inner">
+          <div class="summary-title">Order Summary</div>
+          <div class="summary-row"><span class="s-label">Provider</span><span class="s-value" id="cable-s-prov">—</span></div>
+          <div class="summary-row"><span class="s-label">Plan</span><span class="s-value" id="cable-s-plan">—</span></div>
+          <div class="summary-row"><span class="s-label">Smart Card</span><span class="s-value" id="cable-s-card">—</span></div>
+          <div class="summary-row total"><span class="s-label">Total Debit</span><span class="s-value" id="cable-s-amount">—</span></div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn-secondary" onclick="resetPanel('cable')">Clear</button>
+        <button class="btn-primary" id="cable-pay-btn" onclick="submitPayment('cable')">
+          <span class="btn-text">Subscribe Now →</span>
+          <div class="spinner"></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PANEL: INTERNET
+    ══════════════════════════════════════ -->
+    <div class="card bill-panel" id="panel-internet">
+      <div class="panel-header">
+        <div class="panel-icon">🌐</div>
+        <div>
+          <div class="panel-title">Buy Internet</div>
+          <div class="panel-subtitle">Broadband &amp; router data top-up</div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="section-label">Select Provider</div>
+        <div class="providers-grid">
+          <!-- FIX: added syncSummary('internet') to all internet provider btns -->
+          <button class="provider-btn" data-service="smile-direct"
+            onclick="selectItem(this,'inet-provider'); loadVariations('smile-direct','inet-plans'); syncSummary('internet')">
+            <div class="provider-circle">😊</div><span class="prov-name">Smile</span>
+          </button>
+          <button class="provider-btn" data-service="spectranet"
+            onclick="selectItem(this,'inet-provider'); loadVariations('spectranet','inet-plans'); syncSummary('internet')">
+            <div class="provider-circle">📶</div><span class="prov-name">Spectranet</span>
+          </button>
+          <button class="provider-btn" data-service="swift-data"
+            onclick="selectItem(this,'inet-provider'); loadVariations('swift-data','inet-plans'); syncSummary('internet')">
+            <div class="provider-circle">🚀</div><span class="prov-name">Swift</span>
+          </button>
+        </div>
+        <div class="field-error" id="inet-provider-error">⚠ Please select an internet provider.</div>
+      </div>
+
+      <div class="card-section">
+        <div class="form-group">
+          <label>Plan</label>
+          <div class="variation-wrap" id="inet-plans-wrap">
+            <div class="variation-loading">
+              <div class="spinner" style="display:block;border-top-color:var(--primary-light)"></div>
+              Loading plans...
+            </div>
+            <select id="inet-plans" onchange="syncSummary('internet')">
+              <option value="">— Select a provider first —</option>
+            </select>
+          </div>
+          <div class="field-error" id="inet-plans-error">⚠ Please select a plan.</div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="form-group">
+          <label>Account / Phone Number</label>
+          <div class="input-wrap">
+            <span class="input-icon">📞</span>
+            <input type="tel" id="inet-phone" placeholder="e.g. 08012345678" maxlength="11"
+              oninput="clearErr('inet-phone'); syncSummary('internet')" />
+          </div>
+          <div class="field-error" id="inet-phone-error">⚠ Enter a valid 11-digit number.</div>
+        </div>
+      </div>
+
+      <div class="card-section summary-section" id="internet-summary">
+        <div class="summary-inner">
+          <div class="summary-title">Order Summary</div>
+          <div class="summary-row"><span class="s-label">Provider</span><span class="s-value" id="inet-s-prov">—</span></div>
+          <div class="summary-row"><span class="s-label">Plan</span><span class="s-value" id="inet-s-plan">—</span></div>
+          <div class="summary-row"><span class="s-label">Account</span><span class="s-value" id="inet-s-phone">—</span></div>
+          <div class="summary-row total"><span class="s-label">Total Debit</span><span class="s-value" id="inet-s-amount">—</span></div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn-secondary" onclick="resetPanel('internet')">Clear</button>
+        <button class="btn-primary" id="internet-pay-btn" onclick="submitPayment('internet')">
+          <span class="btn-text">Buy Internet →</span>
+          <div class="spinner"></div>
+        </button>
+      </div>
+    </div>
+
+    <!-- ══════════════════════════════════════
+         PANEL: EDUCATION
+    ══════════════════════════════════════ -->
+    <div class="card bill-panel" id="panel-education">
+      <div class="panel-header">
+        <div class="panel-icon">🎓</div>
+        <div>
+          <div class="panel-title">Education Bills</div>
+          <div class="panel-subtitle">WAEC, JAMB, NECO result checker &amp; pins</div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="section-label">Select Body</div>
+        <div class="providers-grid">
+          <!-- FIX: added syncSummary('education') to all education provider btns -->
+          <button class="provider-btn" data-service="waec"
+            onclick="selectItem(this,'edu-provider'); loadVariations('waec','edu-plans'); syncSummary('education')">
+            <div class="provider-circle">📝</div><span class="prov-name">WAEC</span>
+          </button>
+          <button class="provider-btn" data-service="jamb"
+            onclick="selectItem(this,'edu-provider'); loadVariations('jamb','edu-plans'); syncSummary('education')">
+            <div class="provider-circle">📚</div><span class="prov-name">JAMB</span>
+          </button>
+          <button class="provider-btn" data-service="neco"
+            onclick="selectItem(this,'edu-provider'); loadVariations('neco','edu-plans'); syncSummary('education')">
+            <div class="provider-circle">🏫</div><span class="prov-name">NECO</span>
+          </button>
+        </div>
+        <div class="field-error" id="edu-provider-error">⚠ Please select an examination body.</div>
+      </div>
+
+      <div class="card-section">
+        <div class="form-group">
+          <label>Product / Type</label>
+          <div class="variation-wrap" id="edu-plans-wrap">
+            <div class="variation-loading">
+              <div class="spinner" style="display:block;border-top-color:var(--primary-light)"></div>
+              Loading plans...
+            </div>
+            <select id="edu-plans" onchange="syncSummary('education')">
+              <option value="">— Select an exam body first —</option>
+            </select>
+          </div>
+          <div class="field-error" id="edu-plans-error">⚠ Please select a product.</div>
+        </div>
+      </div>
+
+      <div class="card-section">
+        <div class="form-group">
+          <label>Phone Number</label>
+          <div class="input-wrap">
+            <span class="input-icon">📞</span>
+            <input type="tel" id="edu-phone" placeholder="e.g. 08012345678" maxlength="11"
+              oninput="clearErr('edu-phone'); syncSummary('education')" />
+          </div>
+          <div class="field-error" id="edu-phone-error">⚠ Enter a valid 11-digit Nigerian number.</div>
+        </div>
+      </div>
+
+      <div class="card-section summary-section" id="education-summary">
+        <div class="summary-inner">
+          <div class="summary-title">Order Summary</div>
+          <div class="summary-row"><span class="s-label">Body</span><span class="s-value" id="edu-s-prov">—</span></div>
+          <div class="summary-row"><span class="s-label">Product</span><span class="s-value" id="edu-s-plan">—</span></div>
+          <div class="summary-row"><span class="s-label">Phone</span><span class="s-value" id="edu-s-phone">—</span></div>
+          <div class="summary-row total"><span class="s-label">Total Debit</span><span class="s-value" id="edu-s-amount">—</span></div>
+        </div>
+      </div>
+
+      <div class="card-actions">
+        <button class="btn-secondary" onclick="resetPanel('education')">Clear</button>
+        <button class="btn-primary" id="education-pay-btn" onclick="submitPayment('education')">
+          <span class="btn-text">Purchase →</span>
+          <div class="spinner"></div>
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <div class="toast-dot"></div>
+    <span id="toastMsg"></span>
+  </div>
+
+  <!-- FIX: corrected script tag casing -->
+  <script src="../js/fastpay-core.js"></script>
+  <script src="bills.js"></script>
+</body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Savings Calendar</title>
+    <link rel="stylesheet" href="calendar.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+         <!-- ============= HEADER ============= -->
+  <header class="header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-logo">F</div>
+        <span class="brand-name">FastPay</span>
+      </div>
+
+      <nav class="nav">
+        <a href="dashboard.html" class="nav-link">
+          <span class="nav-icon">📊</span>
+          <span>Overview</span>
+        </a>
+        <a href="wallet.html" class="nav-link">
+          <span class="nav-icon">💳</span>
+          <span>Wallet</span>
+        </a>
+        <a href="saving.html" class="nav-link active">
+          <span class="nav-icon">💰</span>
+          <span>Savings</span>
+        </a>
+        <a href="settings.html" class="nav-link">
+          <span class="nav-icon">⚙️</span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+  </header>
+        <div class="header">
+            <h1>Savings Calendar</h1>
+            <div class="view-toggle">
+                <button onclick="switchToHistory()" id="historyBtn" class="toggle-btn active">
+                    All Savings
+                </button>
+                <button onclick="switchToFixedDue()" id="fixedBtn" class="toggle-btn">
+                    Fixed Deposits Due
+                </button>
+            </div>
+        </div>
+
+        <!-- Summary Cards -->
+        <div id="summary" class="summary-section">
+            <div class="summary-card">
+                <div class="summary-label">Total Savings</div>
+                <div class="summary-value" id="totalSavings">₦0.00</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">Days Saved</div>
+                <div class="summary-value" id="daysSaved">0</div>
+            </div>
+            <div class="summary-card">
+                <div class="summary-label">Days Left</div>
+                <div class="summary-value" id="avgSavings">₦0.00</div>
+            </div>
+        </div>
+
+        <!-- Calendar Navigation -->
+        <div class="calendar-header">
+            <button onclick="prevMonth()" class="nav-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+            </button>
+            <h2 id="currentMonth">January 2024</h2>
+            <button onclick="nextMonth()" class="nav-btn">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="9 18 15 12 9 6"></polyline>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Calendar Grid -->
+        <div id="calendarContent"></div>
+
+        <!-- Legend -->
+        <div class="legend">
+            <div class="legend-item">
+                <div class="legend-color today-legend"></div>
+                <span>Today</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color has-savings-legend"></div>
+                <span>Has Savings</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color almost-due-legend"></div>
+                <span>Due Soon (7 days)</span>
+            </div>
+            <div class="legend-item">
+                <div class="legend-color due-today-legend"></div>
+                <span>Due Today</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Day Details -->
+    <div id="detailsModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Savings Details</h3>
+                <button onclick="closeModal()" class="close-btn">&times;</button>
+            </div>
+            <div id="modalBody" class="modal-body"></div>
+        </div>
+    </div>
+
+    <script src="../js/fastpay-core.js"></script>
+    <script src="calendar.js"></script>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FastPay – Savings Activity</title>
+  <link rel="stylesheet" href="savingactivity.css" />
+</head>
+<body>
+
+  <!-- ═══ HEADER ═══ -->
+  <header class="header">
+    <div class="header-container">
+      <a href="/" class="brand">
+        <div class="brand-logo">F</div>
+        <span class="brand-name">FastPay</span>
+      </a>
+      <nav class="nav" id="mainNav">
+        <a href="dashboard.html" class="nav-link"><span class="nav-icon">📊</span><span>Overview</span></a>
+        <a href="wallet.html"    class="nav-link"><span class="nav-icon">💳</span><span>Wallet</span></a>
+        <a href="saving.html"    class="nav-link active"><span class="nav-icon">💰</span><span>Savings</span></a>
+        <a href="settings.html"  class="nav-link"><span class="nav-icon">⚙️</span><span>Settings</span></a>
+      </nav>
+      <button class="menu-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+    </div>
+  </header>
+
+  <main class="dashboard-main">
+
+    <!-- ── PAGE HERO ── -->
+    <div class="page-hero">
+      <div>
+        <div class="hero-eyebrow">ACTIVITY LOG</div>
+        <h1 class="hero-title">Savings Activity</h1>
+        <p class="hero-sub">Every deposit, withdrawal, and interest credit — all in one place.</p>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <div class="stat-label">Total Saved</div>
+          <div class="stat-value" id="statTotalSaved">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Interest Earned</div>
+          <div class="stat-value success" id="statInterest">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Transactions</div>
+          <div class="stat-value" id="statCount">—</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONTROLS ── -->
+    <div class="controls-bar">
+      <div class="filters">
+        <button class="filter-btn active" data-type="all">All</button>
+        <button class="filter-btn" data-type="DEPOSIT">Deposits</button>
+        <button class="filter-btn" data-type="WITHDRAWAL">Withdrawals</button>
+        <button class="filter-btn" data-type="INTEREST">Interest</button>
+      </div>
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search transactions…" />
+      </div>
+    </div>
+
+    <!-- ── ACTIVITY CARD ── -->
+    <section class="card savings-activity">
+
+      <!-- Card head (matches your existing pattern) -->
+      <div class="card-head">
+        <h3>All Savings Activity</h3>
+      </div>
+
+      <!-- Loading skeleton -->
+      <div id="loadingSkeleton" class="skeleton-wrap">
+        <div class="skeleton-row" style="--d:0"><div class="sk-avatar"></div><div class="sk-lines"><div class="sk-line"></div><div class="sk-line short"></div></div><div class="sk-amount"></div></div>
+        <div class="skeleton-row" style="--d:1"><div class="sk-avatar"></div><div class="sk-lines"><div class="sk-line"></div><div class="sk-line short"></div></div><div class="sk-amount"></div></div>
+        <div class="skeleton-row" style="--d:2"><div class="sk-avatar"></div><div class="sk-lines"><div class="sk-line"></div><div class="sk-line short"></div></div><div class="sk-amount"></div></div>
+        <div class="skeleton-row" style="--d:3"><div class="sk-avatar"></div><div class="sk-lines"><div class="sk-line"></div><div class="sk-line short"></div></div><div class="sk-amount"></div></div>
+        <div class="skeleton-row" style="--d:4"><div class="sk-avatar"></div><div class="sk-lines"><div class="sk-line"></div><div class="sk-line short"></div></div><div class="sk-amount"></div></div>
+      </div>
+
+      <!-- Empty state -->
+      <div id="emptyState" class="empty-state" style="display:none">
+        <div class="empty-icon">🪣</div>
+        <div class="empty-title">No transactions yet</div>
+        <div class="empty-sub">Your savings activity will appear here once you make your first deposit.</div>
+      </div>
+
+      <!-- Activity list -->
+      <ul class="activity-list" id="activityList" style="display:none"></ul>
+
+      <!-- Pagination -->
+      <div class="pagination" id="pagination" style="display:none">
+        <button class="page-btn" id="prevPage" disabled>← Prev</button>
+        <div class="page-numbers" id="pageNumbers"></div>
+        <button class="page-btn" id="nextPage">Next →</button>
+      </div>
+
+    </section>
+  </main>
+
+  <!-- ═══ RECEIPT MODAL ═══ -->
+  <div id="receiptModal" class="modal-overlay" style="display:none">
+    <div class="modal-content">
+      <button class="modal-close" id="closeModal" aria-label="Close">✕</button>
+
+      <div class="receipt-header">
+        <div class="receipt-icon" id="receiptIcon">💳</div>
+        <div class="receipt-status badge-success" id="receiptStatus">Completed</div>
+        <div class="receipt-amount" id="receiptAmount">—</div>
+        <div class="receipt-date-label" id="receiptDateLabel">—</div>
+      </div>
+
+      <div class="receipt-divider"><span>RECEIPT DETAILS</span></div>
+
+      <div class="receipt-rows" id="receiptBody"></div>
+
+      <button class="receipt-print-btn" onclick="window.print()">🖨 Print Receipt</button>
+    </div>
+  </div>
+
+  <script src="../js/fastpay-core.js"></script>
+  <script src="savingactivity.js"></script>
+</body>
+</html>

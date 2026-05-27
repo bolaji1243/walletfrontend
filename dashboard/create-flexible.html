@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Flexible Savings | FastPay</title>
+  <link rel="stylesheet" href="create-plan-form.css" />
+</head>
+<body>
+  <div class="ambient-bg">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
+  </div>
+
+  <main class="page-shell">
+    <div class="layout">
+      <section class="hero-panel">
+        <a href="create-savings.html" class="back-link">
+          <span class="back-icon">←</span>
+          <span>Back to Plans</span>
+        </a>
+
+        <p class="eyebrow">Flexible Plan</p>
+        <div class="plan-chip flexible">Flexible Savings</div>
+        <h1>Save and withdraw anytime</h1>
+        <p class="hero-subtitle">This plan gives you day-to-day control of your savings while still helping you earn interest as your balance grows.</p>
+
+        <div class="hero-stats">
+          <div class="stat-card">
+            <span class="stat-label">Access</span>
+            <strong class="stat-value">Anytime withdrawals</strong>
+            <span class="stat-copy">Designed for emergency funds, bills, and short-term targets.</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Best for</span>
+            <strong class="stat-value">Everyday savings discipline</strong>
+            <span class="stat-copy">Perfect when you want flexibility without locking your funds away.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-panel">
+        <div class="form-header">
+          <div>
+            <h2>Create Flexible Savings</h2>
+            <p>Set an amount and purpose, then confirm with your PIN to open the plan.</p>
+          </div>
+          <div class="panel-icon flexible">FL</div>
+        </div>
+
+        <div class="balance-strip" id="balanceStrip">
+          <div>
+            <div class="balance-label">Available Balance</div>
+            <div class="balance-value" id="availableBalance">₦0.00</div>
+          </div>
+        </div>
+
+        <form class="savings-form" id="flexibleForm">
+          <div class="field-group">
+            <label for="amount">Amount (₦)</label>
+            <input class="field-input" type="number" id="amount" placeholder="5000" min="1" />
+            <div class="quick-amounts">
+              <button type="button" class="quick-amount-btn" data-amount="5000">₦5,000</button>
+              <button type="button" class="quick-amount-btn" data-amount="10000">₦10,000</button>
+              <button type="button" class="quick-amount-btn" data-amount="25000">₦25,000</button>
+              <button type="button" class="quick-amount-btn" data-amount="50000">₦50,000</button>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="purpose">Purpose</label>
+            <input class="field-input" type="text" id="purpose" placeholder="Emergency fund" />
+          </div>
+
+          <div class="summary-card">
+            <div class="summary-title">Savings Summary</div>
+            <div class="summary-row">
+              <span>Plan type</span>
+              <strong>Flexible Savings</strong>
+            </div>
+            <div class="summary-row">
+              <span>Amount</span>
+              <strong id="summaryAmount">₦0.00</strong>
+            </div>
+            <div class="summary-row">
+              <span>Purpose</span>
+              <strong id="summaryPurpose">Not set</strong>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-row">
+              <span>Access</span>
+              <strong>Withdraw anytime</strong>
+            </div>
+          </div>
+
+          <div id="statusBox" class="status-box"></div>
+
+          <button type="submit" class="submit-btn flexible" id="createBtn">Create Savings</button>
+          <p class="help-note">Your funds remain accessible while still earning interest.</p>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <div class="modal" id="pinModal">
+    <div class="modal-overlay" onclick="closePinModal()"></div>
+    <div class="modal-box">
+      <h3>Confirm Flexible Savings</h3>
+      <p class="modal-copy">Review your amount and enter your 4-digit PIN to create this savings plan.</p>
+      <div class="modal-amount" id="modalAmount">₦0.00</div>
+      <div class="field-group">
+        <label for="pin">Transaction PIN</label>
+        <input class="field-input" type="password" id="pin" maxlength="4" inputmode="numeric" placeholder="4-digit PIN" />
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="modal-btn primary flexible" id="confirmBtn">Confirm</button>
+        <button type="button" class="modal-btn" onclick="closePinModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/fastpay-core.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const token = window.FastPay?.getToken() || localStorage.getItem("fastpay_token");
+      if (!token) {
+        window.location.href = window.FastPay?.getLoginPath?.() || "../signup/login.html";
+        return;
+      }
+
+      const API_BASE = window.FastPay?.getApiBase?.() || "http://localhost:8080";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      };
+
+      const amountInput = document.getElementById("amount");
+      const purposeInput = document.getElementById("purpose");
+      const availableBalance = document.getElementById("availableBalance");
+      const summaryAmount = document.getElementById("summaryAmount");
+      const summaryPurpose = document.getElementById("summaryPurpose");
+      const statusBox = document.getElementById("statusBox");
+      const pinModal = document.getElementById("pinModal");
+      const modalAmount = document.getElementById("modalAmount");
+      const pinInput = document.getElementById("pin");
+      const form = document.getElementById("flexibleForm");
+      const createBtn = document.getElementById("createBtn");
+      const confirmBtn = document.getElementById("confirmBtn");
+      const quickAmountButtons = Array.from(document.querySelectorAll(".quick-amount-btn"));
+
+      let walletBalance = 0;
+
+      function formatMoney(value) {
+        return `₦${Number(value || 0).toLocaleString("en-NG", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        })}`;
+      }
+
+      function showStatus(message, type) {
+        statusBox.textContent = message || "";
+        statusBox.className = message ? `status-box ${type}` : "status-box";
+      }
+
+      function updateSummary() {
+        const amount = Number(amountInput.value || 0);
+        summaryAmount.textContent = formatMoney(amount);
+        modalAmount.textContent = formatMoney(amount);
+        summaryPurpose.textContent = purposeInput.value.trim() || "Not set";
+      }
+
+      function closePinModal() {
+        pinModal.classList.remove("show");
+        pinInput.value = "";
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = "Confirm";
+      }
+
+      async function loadBalance() {
+        try {
+          const res = await fetch(`${API_BASE}/wallet/balance`, { headers });
+          const parsed = window.FastPay?.readResponse
+            ? await window.FastPay.readResponse(res)
+            : { ok: res.ok, data: await res.json(), text: "" };
+
+          walletBalance = Number(parsed.data || 0) || 0;
+          availableBalance.textContent = formatMoney(walletBalance);
+        } catch {
+          walletBalance = 0;
+          availableBalance.textContent = formatMoney(0);
+        }
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const amount = Number(amountInput.value);
+        const purpose = purposeInput.value.trim();
+        showStatus("", "error");
+
+        if (!amount || amount <= 0) {
+          showStatus("Enter a valid amount.", "error");
+          return;
+        }
+        if (amount > walletBalance) {
+          showStatus("Insufficient wallet balance.", "error");
+          return;
+        }
+        if (!purpose) {
+          showStatus("Enter a purpose for this savings plan.", "error");
+          return;
+        }
+
+        updateSummary();
+        pinModal.classList.add("show");
+      });
+
+      confirmBtn.addEventListener("click", async () => {
+        if (pinInput.value.length !== 4) {
+          showStatus("Enter a valid 4-digit PIN.", "error");
+          return;
+        }
+
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = "Creating...";
+        createBtn.disabled = true;
+
+        try {
+          const res = await fetch(`${API_BASE}/wallet/savings/normal`, {
+            method: "POST",
+            headers,
+            body: JSON.stringify({
+              amount: Number(amountInput.value),
+              purpose: purposeInput.value.trim(),
+              pin: pinInput.value
+            })
+          });
+
+          const parsed = window.FastPay?.readResponse
+            ? await window.FastPay.readResponse(res)
+            : { ok: res.ok, text: await res.text(), data: null };
+
+          if (!parsed.ok) {
+            throw new Error(window.FastPay?.extractMessage?.(parsed, "Failed to create savings") || "Failed to create savings");
+          }
+
+          closePinModal();
+          showStatus("Flexible savings created successfully.", "success");
+          setTimeout(() => {
+            window.location.href = "saving.html";
+          }, 1000);
+        } catch (error) {
+          closePinModal();
+          showStatus(error.message || "Failed to create savings", "error");
+        } finally {
+          createBtn.disabled = false;
+        }
+      });
+
+      amountInput.addEventListener("input", updateSummary);
+      purposeInput.addEventListener("input", updateSummary);
+      quickAmountButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          amountInput.value = button.dataset.amount || "";
+          updateSummary();
+        });
+      });
+
+      loadBalance();
+      updateSummary();
+      window.closePinModal = closePinModal;
+    });
+  </script>
+</body>
+</html>

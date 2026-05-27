@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FastPay Rewards Wallet</title>
+    <link rel="stylesheet" href="wallet.css">
+</head>
+<body>
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+    <!-- ============= HEADER ============= -->
+  <header class="header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-logo">F</div>
+        <span class="brand-name">FastPay</span>
+      </div>
+
+      <nav class="nav">
+        <a href="dashboard.html" class="nav-link">
+          <span class="nav-icon">📊</span>
+          <span>Overview</span>
+        </a>
+        <a href="wallet.html" class="nav-link">
+          <span class="nav-icon">💳</span>
+          <span>Wallet</span>
+        </a>
+        <a href="saving.html" class="nav-link active">
+          <span class="nav-icon">💰</span>
+          <span>Savings</span>
+        </a>
+        <a href="settings.html" class="nav-link">
+          <span class="nav-icon">⚙️</span>
+          <span>Settings</span>
+        </a>
+      </nav>
+
+  </header>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <h1>💎 FastPay Rewards</h1>
+            <p>Your gateway to exclusive rewards and benefits</p>
+        </header>
+
+        <!-- Stats Grid -->
+        <div class="stats-grid">
+            <!-- Total Points Card -->
+            <div class="stat-card">
+                <div class="stat-icon points-icon">⭐</div>
+                <div class="stat-label">Total Points</div>
+                <div class="stat-value" id="totalPoints">0</div>
+                <div class="stat-subtext">Available to redeem</div>
+            </div>
+
+            <!-- Tier Card -->
+            <div class="stat-card">
+                <div class="stat-icon tier-icon">🏆</div>
+                <div class="stat-label">Current Tier</div>
+                <div class="stat-value tier-name" id="currentTier">Loading...</div>
+                <div class="tier-badge" id="tierBadge">BRONZE</div>
+            </div>
+
+            <!-- Cash Value Card -->
+            <div class="stat-card">
+                <div class="stat-icon cash-icon">💰</div>
+                <div class="stat-label">Cash Value</div>
+                <div class="stat-value" id="cashValue">₦0.00</div>
+                <div class="stat-subtext">At current rate (0.5x)</div>
+            </div>
+        </div>
+
+        <!-- Tier Progress Section -->
+        <section class="action-section">
+            <h2>🎯 Your Tier Progress</h2>
+            <div class="tier-progress-container">
+                <div class="tier-info">
+                    <span class="current-tier-label">Current: <strong id="currentTierLabel">BRONZE</strong></span>
+                    <span class="next-tier-label">Next: <strong id="nextTierLabel">SILVER</strong></span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-text" id="progressText">0 / 10,000 points to SILVER</div>
+            </div>
+        </section>
+
+        <!-- Redeem Points Section -->
+        <section class="action-section">
+            <h2>🎁 Redeem Your Points</h2>
+            <div class="redeem-form">
+                <div class="form-group">
+                    <label for="pointsToRedeem">Points to Redeem</label>
+                    <input type="number" id="pointsToRedeem" placeholder="Enter points" min="1">
+                    <small class="input-help">Conversion rate: 1 point = ₦0.50</small>
+                </div>
+                <button class="btn btn-primary" onclick="redeemPoints()">
+                    <span class="btn-icon">💸</span>
+                    Redeem Points
+                </button>
+            </div>
+            <div class="quick-redeem">
+                <p>Quick Redeem:</p>
+                <button class="btn-quick" onclick="quickRedeem(100)">100 pts</button>
+                <button class="btn-quick" onclick="quickRedeem(500)">500 pts</button>
+                <button class="btn-quick" onclick="quickRedeem(1000)">1000 pts</button>
+                <button class="btn-quick" onclick="quickRedeem(5000)">5000 pts</button>
+            </div>
+        </section>
+
+        <!-- AI Insights Section -->
+        <section class="action-section ai-section">
+            <h2>🤖 AI-Powered Insights</h2>
+            <p class="section-description">Get personalized recommendations to maximize your rewards</p>
+            <button class="btn btn-ai" onclick="getAIInsight()">
+                <span class="btn-icon">✨</span>
+                Get AI Recommendations
+            </button>
+            <div id="aiInsightBox" class="ai-insight-box" style="display: none;">
+                <div class="ai-insight-content" id="aiInsightContent"></div>
+            </div>
+        </section>
+
+        <!-- Reward History Section -->
+        <section class="action-section">
+            <h2>📜 Reward History</h2>
+            <button class="btn btn-secondary" onclick="loadRewardHistory()">
+                <span class="btn-icon">🔄</span>
+                Refresh History
+            </button>
+            <div id="historyContainer" class="history-container">
+                <p class="empty-state">Click refresh to load your reward history</p>
+            </div>
+        </section>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast"></div>
+
+    <script src="../js/fastpay-core.js"></script>
+    <script src="wallet.js"></script>
+</body>
+</html>

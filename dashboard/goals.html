@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Goals - FastPay</title>
+    <link rel="stylesheet" href="goals.css">
+</head>
+
+<body>
+
+  <!-- ========================= -->
+  <!-- STICKY HEADER / NAV       -->
+  <!-- ========================= -->
+  <header class="main-header">
+    <div class="header-content">
+      <a href="dashboard.html" class="brand">
+        <div class="logo-icon">F</div>
+        <span class="brand-name">FastPay</span>
+      </a>
+      <nav class="nav-links">
+        <a href="dashboard.html" class="nav-link">
+          <span class="nav-icon">📊</span> Dashboard
+        </a>
+
+        <a href="saving.html" class="nav-link">
+          <span class="nav-icon">💰</span> Savings
+        </a>
+        <a href="goals.html" class="nav-link active">
+          <span class="nav-icon">🎯</span> Goals
+        </a>
+        <a href="contribute.html" class="nav-link">
+          <span class="nav-icon">🎁</span> Gift
+        </a>
+        <a href="settings.html" class="nav-link">
+          <span class="nav-icon">⚙️</span> Settings
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ========================= -->
+  <!-- MAIN CONTAINER            -->
+  <!-- ========================= -->
+  <div class="container">
+
+    <header>
+      <h1>My Savings Goals</h1>
+      <button onclick="showCreateGoalModal()" class="btn-create">
+        + New Goal
+      </button>
+    </header>
+
+    <!-- Stats Dashboard -->
+    <div id="statsDashboard" class="stats-dashboard-horizontal"></div>
+
+    <!-- Goals Grid -->
+    <div id="goalsContainer" class="goals-grid">
+      <!-- Goals rendered by goals.js -->
+    </div>
+
+  </div>
+
+  <!-- ========================= -->
+  <!-- CREATE GOAL MODAL         -->
+  <!-- ========================= -->
+  <div id="createGoalModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeCreateGoalModal()">&times;</span>
+      <h2>Create New Goal</h2>
+
+      <form id="createGoalForm" onsubmit="handleCreateGoalForm(event)">
+
+        <input type="text"
+               name="goalName"
+               placeholder="Goal Name"
+               required>
+
+        <select name="category" required>
+          <option value="">Select Category</option>
+          <option value="TRANSPORTATION">🚗 Transportation</option>
+          <option value="HOUSING">🏠 Housing</option>
+          <option value="EDUCATION">📚 Education</option>
+          <option value="TRAVEL">✈️ Travel</option>
+          <option value="EMERGENCY">🆘 Emergency Fund</option>
+          <option value="GADGETS">📱 Gadgets</option>
+          <option value="HEALTH">💊 Health</option>
+          <option value="OTHER">🎯 Other</option>
+        </select>
+
+        <input type="number"
+               name="targetAmount"
+               placeholder="Target Amount (₦)"
+               step="0.01"
+               required>
+
+        <input type="date"
+               name="targetDate"
+               required>
+
+        <div class="image-upload-group">
+          <label for="goalImageInput" class="upload-trigger">
+            <span class="upload-trigger-title">Goal Image</span>
+            <span class="upload-trigger-subtitle">Upload, crop, and position the image yourself</span>
+          </label>
+          <input type="file" id="goalImageInput" name="goalImage" accept="image/*" hidden>
+          <div id="goalImagePreview" class="goal-image-preview hidden">
+            <img id="goalImagePreviewImg" alt="Goal image preview">
+            <div class="goal-image-preview-meta">
+              <span id="goalImageFileName">No image selected</span>
+              <button type="button" id="recropGoalImageBtn" class="btn-linkish">Reposition</button>
+            </div>
+          </div>
+        </div>
+
+        <label>
+          <input type="checkbox" name="autoWithdraw">
+          Auto-withdraw when completed
+        </label>
+
+        <label>
+          <input type="checkbox" name="keepLocked">
+          Keep locked after completion
+        </label>
+
+        <div class="modal-actions">
+          <button type="submit" class="btn-primary">Create Goal</button>
+          <button type="button" onclick="closeCreateGoalModal()" class="btn-secondary">Cancel</button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- ========================= -->
+  <!-- GOAL DETAILS MODAL        -->
+  <!-- ========================= -->
+  <div id="goalDetailsModal" class="modal">
+    <div class="modal-content modal-content-large">
+      <span class="close" onclick="closeGoalDetailsModal()">&times;</span>
+      <div id="goalDetailsContent">
+        <!-- Loaded dynamically -->
+      </div>
+    </div>
+  </div>
+
+  <div id="imageCropModal" class="modal">
+    <div class="modal-content crop-modal-content">
+      <span class="close" onclick="closeImageCropModal()">&times;</span>
+      <h2>Adjust Goal Image</h2>
+      <p class="crop-modal-copy">Drag the image to position it inside the card. Use zoom to crop it the way you want.</p>
+
+      <div class="crop-frame-shell">
+        <div id="cropViewport" class="crop-viewport">
+          <img id="cropImage" alt="Crop preview">
+          <div id="cropSelection" class="crop-selection">
+            <div class="crop-selection-grid"></div>
+            <button type="button" class="crop-handle corner nw" data-handle="nw" aria-label="Resize top left"></button>
+            <button type="button" class="crop-handle edge n" data-handle="n" aria-label="Resize top"></button>
+            <button type="button" class="crop-handle corner ne" data-handle="ne" aria-label="Resize top right"></button>
+            <button type="button" class="crop-handle edge e" data-handle="e" aria-label="Resize right"></button>
+            <button type="button" class="crop-handle corner se" data-handle="se" aria-label="Resize bottom right"></button>
+            <button type="button" class="crop-handle edge s" data-handle="s" aria-label="Resize bottom"></button>
+            <button type="button" class="crop-handle corner sw" data-handle="sw" aria-label="Resize bottom left"></button>
+            <button type="button" class="crop-handle edge w" data-handle="w" aria-label="Resize left"></button>
+          </div>
+        </div>
+      </div>
+
+      <div class="crop-controls">
+        <label for="cropZoomRange">Zoom</label>
+        <input type="range" id="cropZoomRange" min="1" max="3" step="0.01" value="1">
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn-primary" id="applyCropBtn">Use This Image</button>
+        <button type="button" onclick="closeImageCropModal()" class="btn-secondary">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- JS -->
+  <script src="../js/fastpay-core.js"></script>
+  <script src="goals.js"></script>
+
+  <!--
+    ═══════════════════════════════════════════════════════════
+    HOW TO ADD THE 🎁 GIFT BUTTON IN goals.js
+    ═══════════════════════════════════════════════════════════
+    In your goals.js where you build each goal card HTML,
+    add this block inside .goal-actions (or right before it):
+
+    // If gift link is enabled for this goal:
+    if (goal.giftEnabled && goal.giftCode) {
+      const giftBtn = document.createElement('a');
+      giftBtn.href = `contribute.html?code=${goal.giftCode}`;
+      giftBtn.className = 'btn-gift-link';
+      giftBtn.innerHTML = `
+        <span class="gift-btn-icon">🎁</span>
+        <span class="gift-btn-text">Gift This Goal</span>
+      `;
+      card.appendChild(giftBtn);
+    }
+
+    Or as an HTML string in a template literal:
+    ${goal.giftEnabled && goal.giftCode ? `
+      <a href="contribute.html?code=${goal.giftCode}" class="btn-gift-link">
+        <span class="gift-btn-icon">🎁</span>
+        <span class="gift-btn-text">Gift This Goal</span>
+      </a>
+    ` : ''}
+    ═══════════════════════════════════════════════════════════
+  -->
+
+</body>
+</html>

@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎁 Gift Contribution - FastPay</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --primary-light: #818cf8;
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --accent: #fbbf24;
+            --success: #10b981;
+            --success-light: #34d399;
+            --danger: #ef4444;
+            --gift-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --gift-glow: rgba(240, 147, 251, 0.3);
+            --bg-primary: #0a0a14;
+            --bg-secondary: #13131f;
+            --bg-tertiary: #1a1a2e;
+            --bg-elevated: #252540;
+            --bg-card: #1e1e30;
+            --text-primary: #ffffff;
+            --text-secondary: #a8a8c0;
+            --text-muted: #6b6b8a;
+            --border-subtle: rgba(255, 255, 255, 0.06);
+            --border-medium: rgba(255, 255, 255, 0.1);
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-md: 0 8px 24px rgba(0,0,0,0.4);
+            --shadow-lg: 0 20px 60px rgba(0,0,0,0.5);
+            --shadow-glow: 0 0 40px rgba(99,102,241,0.3);
+            --shadow-gift: 0 0 40px rgba(240,147,251,0.3);
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 20px;
+            --radius-2xl: 24px;
+            --radius-full: 9999px;
+            --transition-fast: 150ms ease;
+            --transition-base: 250ms ease;
+            --transition-slow: 350ms ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 55% 45% at 15% 10%, rgba(240,147,251,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 45% 40% at 85% 85%, rgba(99,102,241,0.07) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        ::-webkit-scrollbar { width: 10px; height: 10px; }
+        ::-webkit-scrollbar-track { background: var(--bg-secondary); border-radius: var(--radius-full); }
+        ::-webkit-scrollbar-thumb { background: var(--bg-elevated); border-radius: var(--radius-full); transition: background var(--transition-base); }
+        ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
+
+        /* ===== HEADER ===== */
+        .header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background: rgba(26, 26, 46, 0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 1rem 0;
+            animation: slideDown 0.5s ease;
+        }
+
+        @keyframes slideDown {
+            from { transform: translateY(-100%); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-gradient);
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow-glow);
+            color: white;
+        }
+
+        .brand-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav { display: flex; gap: 0.5rem; }
+
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.25rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.95rem;
+            border-radius: var(--radius-lg);
+            transition: all var(--transition-base);
+            position: relative;
+            text-decoration: none;
+        }
+
+        .nav-link:hover { color: var(--text-primary); background: var(--bg-elevated); }
+
+        .nav-link.active {
+            color: var(--text-primary);
+            background: var(--bg-elevated);
+        }
+
+        .nav-link.active::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 3px;
+            background: var(--gift-gradient);
+            border-radius: var(--radius-full);
+        }
+
+        .nav-icon { font-size: 1.1rem; }
+
+        /* ===== LAYOUT ===== */
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ===== PAGE HEADER ===== */
+        .page-header {
+            text-align: center;
+            margin: 2.5rem 0 2rem;
+            animation: fadeInDown 0.6s ease;
+        }
+
+        .page-header-icon {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 0.75rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            background: var(--gift-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== CARD ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-2xl);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-lg);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.6s ease;
+            transition: all var(--transition-base);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 4px;
+            background: var(--gift-gradient);
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform var(--transition-base);
+        }
+
+        .card:hover::before { transform: scaleX(1); }
+        .card:hover { border-color: var(--border-medium); box-shadow: var(--shadow-lg), var(--shadow-gift); }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card-icon {
+            width: 72px;
+            height: 72px;
+            background: var(--gift-gradient);
+            border-radius: var(--radius-xl);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto 1.75rem;
+            box-shadow: 0 8px 24px var(--gift-glow);
+        }
+
+        .card h2 {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.4rem;
+        }
+
+        .card .card-sub {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 2rem;
+        }
+
+        /* ===== ALERT ===== */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: var(--radius-md);
+            margin-bottom: 1.5rem;
+            font-weight: 500;
+            font-size: 0.95rem;
+            display: none;
+        }
+        .alert.active { display: block; animation: fadeIn 0.3s ease; }
+        .alert-success { background: rgba(16,185,129,0.15); color: var(--success-light); border: 1px solid rgba(16,185,129,0.3); }
+        .alert-error { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+
+        /* ===== GOAL INFO BLOCK ===== */
+        .goal-info-block {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            display: none;
+        }
+        .goal-info-block.active { display: block; animation: fadeIn 0.4s ease; }
+
+        .goal-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1.25rem;
+        }
+
+        .progress-bar {
+            height: 28px;
+            background: var(--bg-primary);
+            border-radius: var(--radius-full);
+            overflow: hidden;
+            margin-bottom: 1.25rem;
+            border: 1px solid var(--border-subtle);
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--gift-gradient);
+            border-radius: var(--radius-full);
+            transition: width 0.8s ease;
+            box-shadow: 0 0 18px var(--gift-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .stat-cell {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            padding: 0.875rem 0.5rem;
+            text-align: center;
+        }
+
+        .stat-cell-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-cell-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            background: var(--gift-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ===== FORM ===== */
+        .form-group { margin-bottom: 1.5rem; }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.75px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem 1.25rem;
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: all var(--transition-base);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #f093fb;
+            box-shadow: 0 0 0 3px rgba(240,147,251,0.15);
+            background: var(--bg-tertiary);
+        }
+
+        .form-group input::placeholder { color: var(--text-muted); }
+
+        /* ===== QUICK AMOUNTS ===== */
+        .quick-amounts {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .btn-quick {
+            padding: 0.875rem 0.5rem;
+            background: var(--bg-secondary);
+            border: 2px solid rgba(240,147,251,0.3);
+            border-radius: var(--radius-md);
+            color: #f093fb;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            font-family: inherit;
+        }
+
+        .btn-quick:hover, .btn-quick.selected {
+            background: var(--gift-gradient);
+            color: white;
+            border-color: transparent;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px var(--gift-glow);
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            width: 100%;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: var(--radius-md);
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all var(--transition-base);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            font-family: inherit;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: rgba(255,255,255,0.1);
+            opacity: 0;
+            transition: opacity var(--transition-base);
+        }
+
+        .btn:hover::before { opacity: 1; }
+
+        .btn-gift {
+            background: var(--gift-gradient);
+            color: white;
+            box-shadow: 0 8px 24px var(--gift-glow);
+        }
+
+        .btn-gift:hover { transform: translateY(-2px); box-shadow: 0 14px 32px var(--gift-glow); }
+        .btn-gift:active { transform: translateY(0); }
+        .btn-gift:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .btn-ghost {
+            background: var(--bg-secondary);
+            border: 2px solid var(--border-subtle);
+            color: var(--text-secondary);
+            margin-top: 0.75rem;
+            box-shadow: none;
+        }
+
+        .btn-ghost:hover { background: var(--bg-elevated); color: var(--text-primary); border-color: var(--border-medium); transform: translateY(-1px); }
+
+        /* ===== SUCCESS ===== */
+        .success-wrap {
+            text-align: center;
+            padding: 1.5rem 0;
+        }
+
+        .success-ring {
+            width: 100px;
+            height: 100px;
+            background: rgba(67,233,123,0.1);
+            border: 3px solid #43e97b;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.75rem;
+            margin: 0 auto 1.5rem;
+            animation: pulse-green 2.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 30px rgba(67,233,123,0.4); }
+            50% { box-shadow: 0 0 60px rgba(67,233,123,0.7); }
+        }
+
+        .success-title { font-size: 1.75rem; font-weight: 800; color: #43e97b; margin-bottom: 0.5rem; }
+        .success-sub { color: var(--text-secondary); margin-bottom: 2rem; font-size: 1rem; }
+
+        /* ===== LOADING ===== */
+        .loading-wrap {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .spinner {
+            width: 52px;
+            height: 52px;
+            border: 4px solid var(--bg-elevated);
+            border-top-color: #f093fb;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1rem;
+            box-shadow: 0 0 20px var(--gift-glow);
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-wrap p { color: var(--text-secondary); font-weight: 500; }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            padding: 1.25rem 2rem;
+            border-radius: var(--radius-lg);
+            font-weight: 600;
+            box-shadow: var(--shadow-lg);
+            transform: translateX(400px);
+            transition: transform var(--transition-slow);
+            z-index: 10000;
+            border: 1px solid var(--border-medium);
+            backdrop-filter: blur(10px);
+        }
+
+        .toast.show { transform: translateX(0); }
+        .toast.success { background: linear-gradient(135deg, #43e97b, #38f9d7); color: #1a1a2e; box-shadow: 0 8px 24px rgba(67,233,123,0.4); }
+        .toast.error { background: var(--gift-gradient); color: white; box-shadow: 0 8px 24px rgba(240,147,251,0.4); }
+
+        /* ===== ANIMS ===== */
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { transform: scale(1); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .header-container { padding: 0 1rem; }
+            .nav { display: none; }
+            .container { padding: 1.25rem 1rem 3rem; }
+            .page-header h1 { font-size: 2rem; }
+            .card { padding: 1.75rem; }
+        }
+
+        @media (max-width: 480px) {
+            .page-header h1 { font-size: 1.75rem; }
+            .quick-amounts { grid-template-columns: 1fr 1fr; }
+            .toast { right: 1rem; left: 1rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-container">
+            <a href="dashboard.html" class="brand">
+                <div class="brand-logo">F</div>
+                <span class="brand-name">FastPay</span>
+            </a>
+            <nav class="nav">
+                <a href="dashboard.html" class="nav-link"><span class="nav-icon">🏠</span> Dashboard</a>
+                <a href="goals.html" class="nav-link"><span class="nav-icon">🎯</span> Goals</a>
+                <a href="contribute.html" class="nav-link active"><span class="nav-icon">🎁</span> Gift</a>
+                
+            </nav>
+        </div>
+    </header>
+
+    <!-- MAIN -->
+    <main class="container">
+
+        <div class="page-header">
+            <span class="page-header-icon">🎁</span>
+            <h1>Gift Contribution</h1>
+            <p>Help someone reach their savings goal</p>
+        </div>
+
+        <div id="alertBox" class="alert"></div>
+
+        <!-- STEP 1: Enter Code -->
+        <div id="codeStep" class="card">
+            <div class="card-icon">🔑</div>
+            <h2>Enter Gift Code</h2>
+            <p class="card-sub">Paste the gift code shared by your friend</p>
+            <form id="codeForm">
+                <div class="form-group">
+                    <label for="giftCode">Gift Code</label>
+                    <input type="text" id="giftCode" placeholder="e.g., 04a0e450bb" required autocomplete="off">
+                </div>
+                <button type="submit" class="btn btn-gift"><span>🚀</span> Continue</button>
+            </form>
+        </div>
+
+        <!-- STEP 2: Loading -->
+        <div id="loadingStep" class="card" style="display:none;">
+            <div class="loading-wrap">
+                <div class="spinner"></div>
+                <p>Loading goal details...</p>
+            </div>
+        </div>
+
+        <!-- STEP 3: Contribute -->
+        <div id="contributeStep" class="card" style="display:none;">
+            <div class="card-icon">💝</div>
+            <h2>Make a Contribution</h2>
+            <p class="card-sub">Your generosity goes a long way</p>
+
+            <div class="goal-info-block" id="goalInfo">
+                <div class="goal-title" id="goalName">Loading...</div>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressBar" style="width:0%"></div>
+                </div>
+                <div class="stats-grid">
+                    <div class="stat-cell">
+                        <span class="stat-cell-label">Saved</span>
+                        <span class="stat-cell-value" id="savedAmount">₦0</span>
+                    </div>
+                    <div class="stat-cell">
+                        <span class="stat-cell-label">Target</span>
+                        <span class="stat-cell-value" id="targetAmount">₦0</span>
+                    </div>
+                    <div class="stat-cell">
+                        <span class="stat-cell-label">Progress</span>
+                        <span class="stat-cell-value" id="progress">0%</span>
+                    </div>
+                    <div class="stat-cell">
+                        <span class="stat-cell-label">Remaining</span>
+                        <span class="stat-cell-value" id="remaining">₦0</span>
+                    </div>
+                </div>
+            </div>
+
+            <form id="contributeForm">
+                <div class="form-group">
+                    <label for="donorName">Your Name <span style="color:var(--text-muted);font-weight:400;text-transform:none;">(optional)</span></label>
+                    <input type="text" id="donorName" placeholder="Anonymous if left blank">
+                </div>
+                <div class="form-group">
+                    <label for="amount">Contribution Amount (₦)</label>
+                    <div class="quick-amounts">
+                        <button type="button" class="btn-quick" onclick="setAmount(1000,this)">₦1,000</button>
+                        <button type="button" class="btn-quick" onclick="setAmount(5000,this)">₦5,000</button>
+                        <button type="button" class="btn-quick" onclick="setAmount(10000,this)">₦10,000</button>
+                    </div>
+                    <input type="number" id="amount" placeholder="Or enter custom amount" min="100" step="100" required>
+                </div>
+                <button type="submit" class="btn btn-gift" id="contributeBtn"><span>💝</span> Contribute Now</button>
+                <button type="button" class="btn btn-ghost" onclick="resetForm()">← Start Over</button>
+            </form>
+        </div>
+
+        <!-- STEP 4: Success -->
+        <div id="successStep" class="card" style="display:none;">
+            <div class="success-wrap" style="animation: bounceIn 0.7s ease;">
+                <div class="success-ring">🎉</div>
+                <div class="success-title">Contribution Sent!</div>
+                <p class="success-sub">Thank you for your generosity. Your contribution has been processed successfully.</p>
+                <button class="btn btn-gift" onclick="resetForm()"><span>🎁</span> Another Contribution</button>
+                <button class="btn btn-ghost" onclick="window.location.href='goals.html'">← Back to Goals</button>
+            </div>
+        </div>
+
+    </main>
+
+    <div id="toast" class="toast"></div>
+
+    <script src="../js/fastpay-core.js"></script>
+    <script>
+        const API_BASE = window.FastPay?.getApiBase() || "http://localhost:8080";
+        let currentGiftCode = "";
+        let currentGoal = null;
+
+        const token = window.FastPay?.getToken() || localStorage.getItem("fastpay_token");
+        const userId = window.FastPay?.getUserId() || localStorage.getItem("fastpay_userId");
+
+        if (!token || !userId) {
+            alert("⚠️ You must login first.\n\nYou'll be redirected to the login page.");
+            window.location.href = window.FastPay?.getLoginPath?.() || "../signup/login.html";
+        }
+
+        const authHeaders = {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        };
+
+        function showStep(step) {
+            ['code','loading','contribute','success'].forEach(s => {
+                document.getElementById(s + 'Step').style.display = 'none';
+            });
+            document.getElementById(step + 'Step').style.display = 'block';
+        }
+
+        document.getElementById('codeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const code = document.getElementById('giftCode').value.trim();
+            if (!code) { showAlert('Please enter a gift code', 'error'); return; }
+            currentGiftCode = code;
+            await loadGoalDetails(code);
+        });
+
+        async function loadGoalDetails(giftCode) {
+            showStep('loading');
+            try {
+                const res = await fetch(`${API_BASE}/api/goals/gift/${giftCode}`, { headers: authHeaders });
+                if (!res.ok) throw new Error('Invalid gift code');
+                currentGoal = await res.json();
+                updateGoalDisplay(currentGoal);
+                showStep('contribute');
+                document.getElementById('goalInfo').classList.add('active');
+            } catch (err) {
+                showAlert('Invalid gift code or link has been disabled. Please check and try again.', 'error');
+                showStep('code');
+            }
+        }
+
+        document.getElementById('contributeForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const amount = document.getElementById('amount').value;
+            const donorName = document.getElementById('donorName').value.trim();
+            if (!amount || Number(amount) <= 0) { showAlert('Please enter a valid amount', 'error'); return; }
+            await contributeToGoal(currentGiftCode, amount, donorName);
+        });
+
+        async function contributeToGoal(giftCode, amount, donorName) {
+            const btn = document.getElementById('contributeBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<span>⏳</span> Processing...';
+
+            try {
+                let url = `${API_BASE}/api/goals/gift/${giftCode}/contribute?amount=${amount}&donorUserId=${userId}`;
+                if (donorName) url += `&donorName=${encodeURIComponent(donorName)}`;
+                const res = await fetch(url, { method: 'POST', headers: authHeaders });
+                if (!res.ok) { const t = await res.text().catch(() => ''); throw new Error(t || 'Contribution failed'); }
+                const goal = await res.json();
+                updateGoalDisplay(goal);
+                showStep('success');
+                showToast('Contribution successful! 🎉', 'success');
+            } catch (err) {
+                let msg = err.message || 'Failed to process contribution';
+                if (msg.includes('Insufficient')) msg = '💰 Insufficient balance. Please fund your wallet first.';
+                else if (msg.includes('fetch') || msg.includes('Network')) msg = '🌐 Network error. Check your connection.';
+                else if (msg.includes('Invalid gift') || msg.includes('not enabled')) msg = '🎁 Gift link is invalid, expired, or disabled.';
+                showAlert(msg, 'error');
+                btn.disabled = false;
+                btn.innerHTML = '<span>💝</span> Contribute Now';
+            }
+        }
+
+        function updateGoalDisplay(goal) {
+            document.getElementById('goalName').textContent = goal.name || 'Savings Goal';
+            document.getElementById('savedAmount').textContent = `₦${fmt(goal.savedAmount)}`;
+            document.getElementById('targetAmount').textContent = `₦${fmt(goal.targetAmount)}`;
+            document.getElementById('progress').textContent = `${goal.progressPercent || 0}%`;
+            document.getElementById('remaining').textContent = `₦${fmt(goal.amountLeft)}`;
+            document.getElementById('progressBar').style.width = `${Math.min(goal.progressPercent || 0, 100)}%`;
+        }
+
+        function fmt(n) {
+            return Number(n || 0).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function setAmount(amount, btn) {
+            document.getElementById('amount').value = amount;
+            document.querySelectorAll('.btn-quick').forEach(b => b.classList.remove('selected'));
+            btn.classList.add('selected');
+        }
+
+        function showAlert(msg, type) {
+            const box = document.getElementById('alertBox');
+            box.textContent = msg;
+            box.className = `alert alert-${type} active`;
+            setTimeout(() => box.classList.remove('active'), 5000);
+        }
+
+        function showToast(msg, type) {
+            const t = document.getElementById('toast');
+            t.textContent = msg;
+            t.className = `toast ${type} show`;
+            setTimeout(() => t.classList.remove('show'), 4000);
+        }
+
+        function resetForm() {
+            document.getElementById('codeForm').reset();
+            document.getElementById('contributeForm').reset();
+            document.getElementById('goalInfo').classList.remove('active');
+            document.querySelectorAll('.btn-quick').forEach(b => b.classList.remove('selected'));
+            currentGiftCode = "";
+            currentGoal = null;
+            document.getElementById('alertBox').className = 'alert';
+            showStep('code');
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            const code = new URLSearchParams(window.location.search).get('code');
+            if (code) {
+                document.getElementById('giftCode').value = code;
+                currentGiftCode = code;
+                loadGoalDetails(code);
+            }
+        });
+    </script>
+</body>
+</html>

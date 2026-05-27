@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FastPay AI Assistant</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="stylesheet" href="ai.css">
+</head>
+<body>
+  <header class="header">
+    <div class="header-container">
+      <div class="brand">
+        <div class="brand-logo">F</div>
+        <span class="brand-name">FastPay</span>
+      </div>
+      <nav class="nav">
+        <a href="dashboard.html" class="nav-link">
+          <span class="nav-icon" aria-hidden="true">&#128202;</span>
+          <span>Dashboard</span>
+        </a>
+        <a href="ai.html" class="nav-link active">
+          <span class="nav-icon" aria-hidden="true">&#129302;</span>
+          <span>AI Assistant</span>
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="ai-shell">
+    <section class="ai-hero-card">
+      <div class="ai-hero-copy">
+        <span class="ai-eyebrow">AI Copilot</span>
+        <h1>FastPay financial guidance that feels clear, calm, and useful.</h1>
+        <p>
+          Ask questions about your wallet, savings, spending history, and practical next steps.
+          The assistant can answer directly or pull your latest FastPay data when needed.
+        </p>
+      </div>
+
+      <div class="ai-hero-stats">
+        <div class="hero-stat">
+          <span class="hero-stat-label">Assistant mode</span>
+          <strong class="hero-stat-value">Live support</strong>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-label">Powered by</span>
+          <strong class="hero-stat-value">Groq + FastPay</strong>
+        </div>
+        <div class="hero-stat">
+          <span class="hero-stat-label">Best for</span>
+          <strong class="hero-stat-value">Balances, savings, insights</strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="ai-layout">
+      <aside class="ai-sidebar">
+        <div class="sidebar-card">
+          <div class="sidebar-card-head">
+            <span class="sidebar-icon" aria-hidden="true">&#10024;</span>
+            <div>
+              <h2>What I can help with</h2>
+              <p>Use these prompts to start quickly.</p>
+            </div>
+          </div>
+
+          <div class="chat-suggestions" id="suggestions">
+            <button class="suggestion-card" data-prompt="Analyze my spending patterns">
+              <span class="suggestion-icon" aria-hidden="true">&#128202;</span>
+              <span class="suggestion-title">Spending analysis</span>
+              <span class="suggestion-desc">See where your money is moving.</span>
+            </button>
+
+            <button class="suggestion-card" data-prompt="Suggest savings goals for me">
+              <span class="suggestion-icon" aria-hidden="true">&#127919;</span>
+              <span class="suggestion-title">Savings goals</span>
+              <span class="suggestion-desc">Get practical targets you can follow.</span>
+            </button>
+
+            <button class="suggestion-card" data-prompt="How can I improve my financial health?">
+              <span class="suggestion-icon" aria-hidden="true">&#128161;</span>
+              <span class="suggestion-title">Financial tips</span>
+              <span class="suggestion-desc">Ask for smart next steps.</span>
+            </button>
+
+            <button class="suggestion-card" data-prompt="What are the best saving strategies?">
+              <span class="suggestion-icon" aria-hidden="true">&#128176;</span>
+              <span class="suggestion-title">Saving strategies</span>
+              <span class="suggestion-desc">Learn better ways to build consistency.</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="sidebar-card compact-card">
+          <div class="sidebar-card-head">
+            <span class="sidebar-icon" aria-hidden="true">&#128274;</span>
+            <div>
+              <h2>Privacy note</h2>
+              <p>Your FastPay data is only used to answer your request.</p>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <section class="ai-panel">
+        <div class="ai-panel-header">
+          <div>
+            <h2>FastPay AI Assistant</h2>
+            <p>Your personal financial advisor powered by AI</p>
+          </div>
+          <div class="assistant-status">
+            <span class="status-dot" aria-hidden="true"></span>
+            <span>Ready</span>
+          </div>
+        </div>
+
+        <div class="fallback-notice" id="fallbackNotice">
+          <div class="fallback-icon">&#9888;</div>
+          <div class="fallback-text">
+            <div class="fallback-title">Offline Mode</div>
+            <div class="fallback-desc">AI service is temporarily unavailable. Built-in FastPay responses are active.</div>
+          </div>
+        </div>
+
+        <div class="chat-window" id="chatWindow">
+          <div class="empty-chat">
+            <div class="empty-icon">&#128172;</div>
+            <h3>Start a conversation</h3>
+            <p>Ask about balances, savings, transaction history, or financial guidance.</p>
+          </div>
+        </div>
+
+        <div class="quick-actions-bar" id="quickActions" style="display: none;">
+          <button class="quick-action-chip" data-prompt="Check my balance">Balance</button>
+          <button class="quick-action-chip" data-prompt="Show savings summary">Savings</button>
+          <button class="quick-action-chip" data-prompt="Transaction history">History</button>
+          <button class="quick-action-chip" data-prompt="Budget advice">Budget</button>
+        </div>
+
+        <div class="chat-input-container">
+          <div class="chat-input-wrapper">
+            <label class="chat-label" for="chatInput">Message</label>
+            <textarea
+              id="chatInput"
+              class="chat-input"
+              placeholder="Ask me anything about your finances..."
+              rows="1"
+            ></textarea>
+          </div>
+          <button id="sendBtn" class="send-btn" aria-label="Send message">
+            Send
+          </button>
+        </div>
+      </section>
+    </section>
+
+    <script src="../js/fastpay-core.js"></script>
+    <script src="ai.js"></script>
+  </main>
+</body>
+</html>

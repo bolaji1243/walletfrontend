@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FastPay - Login</title>
+  <meta name="description" content="Secure login to your FastPay account.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+  <div class="bg-particles" aria-hidden="true"></div>
+
+  <section class="login-section">
+    <div class="login-container">
+      <div class="login-phone" aria-hidden="true">
+        <div class="phone-wrapper">
+          <div class="phone">
+            <div class="phone-notch"></div>
+            <div class="phone-screen">
+              <div class="app-header">
+                <span class="app-brand">FastPay</span>
+                <div class="header-icons">
+                  <span class="status-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <path d="M2 18h2a4 4 0 0 1 4 4H2v-4Zm5 4a7 7 0 0 0-7-7v-2a9 9 0 0 1 9 9H7Zm4 0C11 16.477 6.523 12 1 12v-2c6.627 0 12 5.373 12 12h-2Zm4 0c0-8.284-6.716-15-15-15V5c9.389 0 17 7.611 17 17h-2Z"/>
+                    </svg>
+                  </span>
+                  <span class="status-icon" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" focusable="false">
+                      <path d="M12 22a2.5 2.5 0 0 0 2.45-2h-4.9A2.5 2.5 0 0 0 12 22Zm6-6V11a6 6 0 1 0-12 0v5l-2 2v1h16v-1l-2-2Zm-2 1H8v-6a4 4 0 1 1 8 0v6Z"/>
+                    </svg>
+                  </span>
+                </div>
+              </div>
+
+              <div class="app-body">
+                <div class="login-slider">
+                  <div class="slide active">
+                    <div class="slide-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false">
+                        <path d="M10 3a1 1 0 0 1 2 0v6h1V2a1 1 0 1 1 2 0v7h1V4a1 1 0 1 1 2 0v8.5a4.5 4.5 0 0 1-1.318 3.182L14 18.364V21h-2v-3.464l3.268-3.268A2.5 2.5 0 0 0 16 12.5V11h-6.586l-1.707-1.707A1 1 0 0 0 6 10v1l2 2v1a6 6 0 0 0 6 6v2a8 8 0 0 1-8-8v-.172l-1.414-1.414A3 3 0 0 1 4 10V9a3 3 0 0 1 5.121-2.121L10 7.757V3Z"/>
+                      </svg>
+                    </div>
+                    <p>Welcome back</p>
+                    <span class="muted">Access your account in seconds.</span>
+                  </div>
+                  <div class="slide">
+                    <div class="slide-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false">
+                        <path d="M7 10V8a5 5 0 1 1 10 0v2h1a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h1Zm2 0h6V8a3 3 0 1 0-6 0v2Zm3 4a2 2 0 0 1 1 3.732V19h-2v-1.268A2 2 0 0 1 12 14Z"/>
+                      </svg>
+                    </div>
+                    <p>Protected access</p>
+                    <span class="muted">Your account stays secure every time you log in.</span>
+                  </div>
+                  <div class="slide">
+                    <div class="slide-icon" aria-hidden="true">
+                      <svg viewBox="0 0 24 24" focusable="false">
+                        <path d="M12 2c-4.971 0-9 2.239-9 5v10c0 2.761 4.029 5 9 5s9-2.239 9-5V7c0-2.761-4.029-5-9-5Zm0 2c4.19 0 7 1.79 7 3s-2.81 3-7 3-7-1.79-7-3 2.81-3 7-3Zm0 16c-4.19 0-7-1.79-7-3v-2.126C6.61 16.204 9.156 17 12 17s5.39-.796 7-2.126V17c0 1.21-2.81 3-7 3Zm0-5c-4.19 0-7-1.79-7-3v-2.126C6.61 11.204 9.156 12 12 12s5.39-.796 7-2.126V12c0 1.21-2.81 3-7 3Z"/>
+                      </svg>
+                    </div>
+                    <p>Track your savings</p>
+                    <span class="muted">Stay close to your plans and wallet activity.</span>
+                  </div>
+                </div>
+
+                <div class="slide-dots" aria-label="Login highlights">
+                  <button type="button" class="dot active" aria-label="Show slide 1"></button>
+                  <button type="button" class="dot" aria-label="Show slide 2"></button>
+                  <button type="button" class="dot" aria-label="Show slide 3"></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="float-icon float-1" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M3 7a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Zm2 0v2h14V7H5Zm0 4v6h14v-6H5Zm2 1h4v2H7v-2Z"/>
+            </svg>
+          </div>
+          <div class="float-icon float-2" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M4 19h16v2H2V3h2v16Zm2-2V9h3v8H6Zm5 0V5h3v12h-3Zm5 0v-6h3v6h-3Z"/>
+            </svg>
+          </div>
+          <div class="float-icon float-3" aria-hidden="true">
+            <svg viewBox="0 0 24 24" focusable="false">
+              <path d="M13 2 4 14h6l-1 8 9-12h-6l1-8Z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
+      <div class="login-form">
+        <div class="form-header">
+          <h1>Login to FastPay</h1>
+          <p>Enter your email or phone number and password to continue.</p>
+        </div>
+
+        <form id="loginForm" novalidate>
+          <div class="form-group">
+            <label for="emailOrPhone">Email or Phone</label>
+            <input
+              type="text"
+              id="emailOrPhone"
+              name="emailOrPhone"
+              placeholder="john@example.com or 08012345678"
+              autocomplete="username"
+              required
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="password">Password</label>
+            <div class="password-wrapper">
+              <input
+                type="password"
+                id="password"
+                name="password"
+                placeholder="Enter your password"
+                autocomplete="current-password"
+                minlength="6"
+                required
+              >
+              <button type="button" class="toggle-password" id="togglePassword" aria-label="Show password">
+                <span class="eye-icon" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" focusable="false">
+                    <path d="M12 5c5.523 0 9.685 4.52 10.75 6-.427.592-1.361 1.748-2.75 2.89l-1.273-1.273A11.33 11.33 0 0 0 20.56 11C19.216 9.55 15.933 7 12 7a8.9 8.9 0 0 0-3.477.702L6.95 6.13A10.85 10.85 0 0 1 12 5Zm-9.707.293 16.414 16.414-1.414 1.414-2.239-2.239A10.72 10.72 0 0 1 12 19c-5.523 0-9.685-4.52-10.75-6 .747-1.034 2.104-2.664 4.015-4.008L.879 6.707l1.414-1.414ZM6.7 10.427C5.171 11.504 4.09 12.72 3.44 13.5 4.784 14.95 8.067 17 12 17c.983 0 1.925-.128 2.808-.367l-1.924-1.924a4 4 0 0 1-5.517-5.517L6.7 10.427ZM12 9a2.99 2.99 0 0 1 2.97 3.346l-3.316-3.316c.114-.02.229-.03.346-.03Z"/>
+                  </svg>
+                </span>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-options">
+            <label class="remember-me" for="rememberMe">
+              <input type="checkbox" id="rememberMe" name="rememberMe">
+              <span>Remember me</span>
+            </label>
+            <a href="#" class="forgot-password">Forgot password?</a>
+          </div>
+
+          <button type="submit" class="btn btn-primary">
+            <span class="btn-text">Login</span>
+            <span class="btn-loader" aria-hidden="true"></span>
+          </button>
+
+          <p id="formMessage" class="form-message" role="status" aria-live="polite"></p>
+        </form>
+
+        <div class="divider"><span>OR</span></div>
+
+        <p class="signup-link">
+          Do not have an account?
+          <a href="signup.html" class="signup-btn">Create account</a>
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <script src="../js/fastpay-core.js"></script>
+  <script src="js/login.js"></script>
+</body>
+</html>

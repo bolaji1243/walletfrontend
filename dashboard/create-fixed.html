@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Create Fixed Savings | FastPay</title>
+  <link rel="stylesheet" href="create-plan-form.css" />
+</head>
+<body>
+  <div class="ambient-bg">
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
+  </div>
+
+  <main class="page-shell">
+    <div class="layout">
+      <section class="hero-panel">
+        <a href="create-savings.html" class="back-link">
+          <span class="back-icon">←</span>
+          <span>Back to Plans</span>
+        </a>
+
+        <p class="eyebrow">Fixed Plan</p>
+        <div class="plan-chip fixed">Fixed Savings</div>
+        <h1>Lock funds and earn more</h1>
+        <p class="hero-subtitle">Choose a duration, commit your funds, and enjoy a stronger yield until your savings matures.</p>
+
+        <div class="hero-stats">
+          <div class="stat-card">
+            <span class="stat-label">Yield style</span>
+            <strong class="stat-value">Higher structured returns</strong>
+            <span class="stat-copy">A great option for planned purchases and more disciplined saving.</span>
+          </div>
+          <div class="stat-card">
+            <span class="stat-label">Access</span>
+            <strong class="stat-value">Locked until maturity</strong>
+            <span class="stat-copy">Best when you want to protect your savings from impulse withdrawals.</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="form-panel">
+        <div class="form-header">
+          <div>
+            <h2>Create Fixed Savings</h2>
+            <p>Choose your amount, set a lock duration, and confirm with your PIN to start earning.</p>
+          </div>
+          <div class="panel-icon fixed">FX</div>
+        </div>
+
+        <div class="balance-strip gold">
+          <div>
+            <div class="balance-label">Available Balance</div>
+            <div class="balance-value" id="availableBalance">₦0.00</div>
+          </div>
+        </div>
+
+        <form class="savings-form" id="fixedForm">
+          <div class="field-group">
+            <label for="amount">Amount (₦)</label>
+            <input class="field-input" type="number" id="amount" placeholder="10000" min="1" />
+            <div class="quick-amounts">
+              <button type="button" class="quick-amount-btn gold" data-amount="10000">₦10,000</button>
+              <button type="button" class="quick-amount-btn gold" data-amount="25000">₦25,000</button>
+              <button type="button" class="quick-amount-btn gold" data-amount="50000">₦50,000</button>
+              <button type="button" class="quick-amount-btn gold" data-amount="100000">₦100,000</button>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="lockDays">Lock Duration</label>
+            <select class="field-select gold" id="lockDays">
+              <option value="7">7 days</option>
+              <option value="14">14 days</option>
+              <option value="30">30 days</option>
+              <option value="60">60 days</option>
+              <option value="90">90 days</option>
+              <option value="180">180 days</option>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="purpose">Purpose</label>
+            <input class="field-input" type="text" id="purpose" placeholder="Rent / Business / Travel" />
+          </div>
+
+          <div class="summary-card">
+            <div class="summary-title">Savings Summary</div>
+            <div class="summary-row">
+              <span>Plan type</span>
+              <strong>Fixed Savings</strong>
+            </div>
+            <div class="summary-row">
+              <span>Amount</span>
+              <strong id="summaryAmount">₦0.00</strong>
+            </div>
+            <div class="summary-row">
+              <span>Lock duration</span>
+              <strong id="summaryDuration">7 days</strong>
+            </div>
+            <div class="summary-row">
+              <span>Estimated interest</span>
+              <strong id="interestPreview">₦0.00</strong>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-row">
+              <span>Purpose</span>
+              <strong id="summaryPurpose">Not set</strong>
+            </div>
+          </div>
+
+          <div id="statusBox" class="status-box"></div>
+
+          <button type="submit" class="submit-btn fixed" id="createBtn">Create Fixed Savings</button>
+          <p class="help-note">Fixed plans stay locked till maturity and are ideal for goal-focused savings.</p>
+        </form>
+      </section>
+    </div>
+  </main>
+
+  <div class="modal" id="pinModal">
+    <div class="modal-overlay" onclick="closePinModal()"></div>
+    <div class="modal-box">
+      <h3>Confirm Fixed Savings</h3>
+      <p class="modal-copy">Your funds will be locked for the selected duration. Enter your PIN to continue.</p>
+      <div class="modal-amount" id="modalAmount">₦0.00</div>
+      <div class="field-group">
+        <label for="pin">Transaction PIN</label>
+        <input class="field-input" type="password" id="pin" maxlength="4" inputmode="numeric" placeholder="4-digit PIN" />
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="modal-btn primary fixed" id="confirmBtn">Confirm</button>
+        <button type="button" class="modal-btn" onclick="closePinModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/fastpay-core.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const token = window.FastPay?.getToken() || localStorage.getItem("fastpay_token");
+      if (!token) {
+        window.location.href = window.FastPay?.getLoginPath?.() || "../signup/login.html";
+        return;
+      }
+
+      const API_BASE = window.FastPay?.getApiBase?.() || "http://localhost:8080";
+      const headers = {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      };
+
+      const amountInput = document.getElementById("amount");
+      const lockDays = document.getElementById("lockDays");
+      const purposeInput = document.getElementById("purpose");
+      const availableBalance = document.getElementById("availableBalance");
+      const summaryAmount = document.getElementById("summaryAmount");
+      const summaryDuration = document.getElementById("summaryDuration");
+      const interestPreview = document.getElementById("interestPreview");
+      const summaryPurpose = document.getElementById("summaryPurpose");
+      const statusBox = document.getElementById("statusBox");
+      const pinModal = document.getElementById("pinModal");
+      const modalAmount = document.getElementById("modalAmount");
+      const pinInput = document.getElementById("pin");
+      const form = document.getElementById("fixedForm");
+      const createBtn = document.getElementById("createBtn");
+      const confirmBtn = document.getElementById("confirmBtn");
+      const quickAmountButtons = Array.from(document.querySelectorAll(".quick-amount-btn"));
+
+      let walletBalance = 0;
+      const fixedRate = 0.10;
+
+      function formatMoney(value) {
+        return `₦${Number(value || 0).toLocaleString("en-NG", {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2
+        })}`;
+      }
+
+      function showStatus(message, type) {
+        statusBox.textContent = message || "";
+        statusBox.className = message ? `status-box ${type}` : "status-box";
+      }
+
+      function calculateInterest(amount, days) {
+        return amount * fixedRate * (days / 365);
+      }
+
+      function updateSummary() {
+        const amount = Number(amountInput.value || 0);
+        const days = Number(lockDays.value || 0);
+        const interest = calculateInterest(amount, days);
+
+        summaryAmount.textContent = formatMoney(amount);
+        modalAmount.textContent = formatMoney(amount);
+        summaryDuration.textContent = `${days} days`;
+        interestPreview.textContent = formatMoney(interest);
+        summaryPurpose.textContent = purposeInput.value.trim() || "Not set";
+      }
+
+      function closePinModal() {
+        pinModal.classList.remove("show");
+        pinInput.value = "";
+        confirmBtn.disabled = false;
+        confirmBtn.textContent = "Confirm";
+      }
+
+      async function loadBalance() {
+        try {
+          const res = await fetch(`${API_BASE}/wallet/balance`, { headers });
+          const parsed = window.FastPay?.readResponse
+            ? await window.FastPay.readResponse(res)
+            : { ok: res.ok, data: await res.json(), text: "" };
+
+          walletBalance = Number(parsed.data || 0) || 0;
+          availableBalance.textContent = formatMoney(walletBalance);
+        } catch {
+          walletBalance = 0;
+          availableBalance.textContent = formatMoney(0);
+        }
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const amount = Number(amountInput.value);
+        const purpose = purposeInput.value.trim();
+        showStatus("", "error");
+
+        if (!amount || amount <= 0) {
+          showStatus("Enter a valid amount.", "error");
+          return;
+        }
+        if (amount > walletBalance) {
+          showStatus("Insufficient wallet balance.", "error");
+          return;
+        }
+        if (!purpose) {
+          showStatus("Enter a purpose for this fixed plan.", "error");
+          return;
+        }
+
+        updateSummary();
+        pinModal.classList.add("show");
+      });
+
+      confirmBtn.addEventListener("click", async () => {
+        if (pinInput.value.length !== 4) {
+          showStatus("Enter a valid 4-digit PIN.", "error");
+          return;
+        }
+
+        confirmBtn.disabled = true;
+        confirmBtn.textContent = "Creating...";
+        createBtn.disabled = true;
+
+        try {
+          const res = await fetch(`${API_BASE}/wallet/savings/fixed`, {
+            method: "POST",
+            headers,
+            body: JSON.stringify({
+              amount: Number(amountInput.value),
+              lockDays: Number(lockDays.value),
+              purpose: purposeInput.value.trim(),
+              pin: pinInput.value
+            })
+          });
+
+          const parsed = window.FastPay?.readResponse
+            ? await window.FastPay.readResponse(res)
+            : { ok: res.ok, text: await res.text(), data: null };
+
+          if (!parsed.ok) {
+            throw new Error(window.FastPay?.extractMessage?.(parsed, "Failed to create fixed savings") || "Failed to create fixed savings");
+          }
+
+          closePinModal();
+          showStatus("Fixed savings created successfully.", "success");
+          setTimeout(() => {
+            window.location.href = "saving.html";
+          }, 1000);
+        } catch (error) {
+          closePinModal();
+          showStatus(error.message || "Failed to create fixed savings", "error");
+        } finally {
+          createBtn.disabled = false;
+        }
+      });
+
+      amountInput.addEventListener("input", updateSummary);
+      lockDays.addEventListener("change", updateSummary);
+      purposeInput.addEventListener("input", updateSummary);
+      quickAmountButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          amountInput.value = button.dataset.amount || "";
+          updateSummary();
+        });
+      });
+
+      loadBalance();
+      updateSummary();
+      window.closePinModal = closePinModal;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Withdraw Savings | FastPay</title>
+  <link rel="stylesheet" href="withdraw.css" />
+</head>
+<body>
+  <div class="animated-bg">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+  </div>
+
+  <header class="main-header">
+    <div class="header-content">
+      <div class="brand">
+        <div class="logo-icon">F</div>
+        <span class="brand-name">FastPay</span>
+      </div>
+      <nav class="nav-links">
+        <a href="dashboard.html" class="nav-link">
+          <span class="nav-icon">📊</span>
+          Dashboard
+        </a>
+        <a href="saving.html" class="nav-link">
+          <span class="nav-icon">💰</span>
+          Savings
+        </a>
+        <a href="goals.html" class="nav-link">
+          <span class="nav-icon">🎯</span>
+          Goals
+        </a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="main-container">
+    <div class="content-wrapper">
+      <div class="page-title-section">
+        <button class="back-button" onclick="window.location.href='saving.html'">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+          Back to Savings
+        </button>
+        <h1 class="page-title">Withdraw Savings</h1>
+        <p class="page-subtitle">Move money from your savings wallet back into your balance securely.</p>
+      </div>
+
+      <section class="balance-card withdraw-balance-card">
+        <div class="balance-header">
+          <span class="balance-label">Withdrawal Flow</span>
+          <button class="refresh-btn" type="button" onclick="window.location.reload()" aria-label="Refresh page">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 2v6h-6"></path>
+              <path d="M3 12a9 9 0 0 1 15.55-6.36L21 8"></path>
+              <path d="M3 22v-6h6"></path>
+              <path d="M21 12a9 9 0 0 1-15.55 6.36L3 16"></path>
+            </svg>
+          </button>
+        </div>
+        <div class="balance-amount" id="withdrawPreviewAmount">₦0.00</div>
+        <div class="balance-subtext">This is the amount you are about to withdraw from savings.</div>
+      </section>
+
+      <section class="withdraw-card">
+        <div class="amount-section">
+          <label class="section-label" for="amount">
+            <span class="label-icon">💸</span>
+            Enter Withdrawal Amount
+          </label>
+
+          <div class="amount-input-wrapper">
+            <span class="currency-symbol">₦</span>
+            <input
+              type="number"
+              id="amount"
+              class="amount-input"
+              placeholder="0.00"
+              min="1"
+              inputmode="decimal"
+            />
+          </div>
+
+          <div class="quick-amounts">
+            <button type="button" class="quick-amount-btn" data-amount="1000">₦1,000</button>
+            <button type="button" class="quick-amount-btn" data-amount="5000">₦5,000</button>
+            <button type="button" class="quick-amount-btn" data-amount="10000">₦10,000</button>
+            <button type="button" class="quick-amount-btn" data-amount="25000">₦25,000</button>
+          </div>
+        </div>
+
+        <div class="transaction-summary">
+          <div class="summary-header">
+            <span class="label-icon">📋</span>
+            Withdrawal Summary
+          </div>
+
+          <div class="summary-items">
+            <div class="summary-item">
+              <span class="summary-label">Amount to withdraw</span>
+              <span class="summary-value" id="summaryAmount">₦0.00</span>
+            </div>
+            <div class="summary-item">
+              <span class="summary-label">Destination</span>
+              <span class="summary-value">FastPay Wallet</span>
+            </div>
+            <div class="summary-divider"></div>
+            <div class="summary-item total">
+              <span class="summary-label">You will receive</span>
+              <span class="summary-value" id="summaryTotal">₦0.00</span>
+            </div>
+          </div>
+
+          <div class="info-box">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"></circle>
+              <line x1="12" y1="16" x2="12" y2="12"></line>
+              <line x1="12" y1="8" x2="12.01" y2="8"></line>
+            </svg>
+            <span>Withdrawals move into your wallet after PIN confirmation.</span>
+          </div>
+        </div>
+
+        <div id="error" class="status-message"></div>
+
+        <button class="withdraw-btn" id="continueBtn" type="button">
+          <span class="btn-text">Continue</span>
+          <svg class="btn-arrow" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"></path>
+          </svg>
+        </button>
+
+        <div class="security-badge">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          </svg>
+          <span>Your withdrawal is protected by PIN verification.</span>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <div class="modal" id="pinModal">
+    <button class="modal-overlay" onclick="closePinModal()"></button>
+    <div class="modal-content withdraw-modal-content">
+      <button class="modal-close" type="button" onclick="closePinModal()" aria-label="Close PIN modal">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M18 6 6 18M6 6l12 12"></path>
+        </svg>
+      </button>
+
+      <h2 class="modal-title">Confirm Withdrawal</h2>
+      <p class="modal-subtitle">Enter your 4-digit transaction PIN to complete this withdrawal.</p>
+
+      <div class="withdraw-modal-amount" id="modalAmountText">₦0.00</div>
+
+      <div class="pin-dots" id="pinDots">
+        <span></span><span></span><span></span><span></span>
+      </div>
+
+      <div class="keypad">
+        <button type="button" class="keypad-btn" onclick="addPin(1)">1</button>
+        <button type="button" class="keypad-btn" onclick="addPin(2)">2</button>
+        <button type="button" class="keypad-btn" onclick="addPin(3)">3</button>
+        <button type="button" class="keypad-btn" onclick="addPin(4)">4</button>
+        <button type="button" class="keypad-btn" onclick="addPin(5)">5</button>
+        <button type="button" class="keypad-btn" onclick="addPin(6)">6</button>
+        <button type="button" class="keypad-btn" onclick="addPin(7)">7</button>
+        <button type="button" class="keypad-btn" onclick="addPin(8)">8</button>
+        <button type="button" class="keypad-btn" onclick="addPin(9)">9</button>
+        <button type="button" class="keypad-btn keypad-btn-muted" onclick="removePin()">⌫</button>
+        <button type="button" class="keypad-btn" onclick="addPin(0)">0</button>
+        <button type="button" class="keypad-btn keypad-btn-confirm" onclick="submitWithdraw()">✔</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../js/fastpay-core.js"></script>
+  <script>
+    const token = globalThis.FastPay?.getToken() || localStorage.getItem("fastpay_token");
+    if (!token) {
+      globalThis.location.href = globalThis.FastPay?.getLoginPath?.() || "../signup/login.html";
+    }
+
+    const params = new URLSearchParams(globalThis.location.search);
+    const savingsId = params.get("savingsId");
+
+    if (!savingsId) {
+      globalThis.location.href = "saving.html";
+    }
+
+    const amountInput = document.getElementById("amount");
+    const error = document.getElementById("error");
+    const pinModal = document.getElementById("pinModal");
+    const continueBtn = document.getElementById("continueBtn");
+    const summaryAmount = document.getElementById("summaryAmount");
+    const summaryTotal = document.getElementById("summaryTotal");
+    const withdrawPreviewAmount = document.getElementById("withdrawPreviewAmount");
+    const modalAmountText = document.getElementById("modalAmountText");
+
+    let pin = "";
+
+    function formatMoney(value) {
+      return `₦${Number(value || 0).toLocaleString("en-NG", {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+      })}`;
+    }
+
+    function showMessage(message, type) {
+      error.textContent = message || "";
+      error.className = message ? `status-message ${type}` : "status-message";
+    }
+
+    function updateAmountUI() {
+      const amount = Number(amountInput.value || 0);
+      const formatted = formatMoney(amount);
+      summaryAmount.textContent = formatted;
+      summaryTotal.textContent = formatted;
+      withdrawPreviewAmount.textContent = formatted;
+      modalAmountText.textContent = formatted;
+    }
+
+    function closePinModal() {
+      pinModal.classList.remove("show");
+      resetPin();
+      continueBtn.disabled = false;
+    }
+
+    function resetPin() {
+      pin = "";
+      updateDots();
+    }
+
+    function updateDots() {
+      document.querySelectorAll("#pinDots span").forEach((dot, index) => {
+        dot.classList.toggle("filled", index < pin.length);
+      });
+    }
+
+    amountInput.addEventListener("input", updateAmountUI);
+
+    document.querySelectorAll(".quick-amount-btn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        amountInput.value = btn.dataset.amount;
+        document.querySelectorAll(".quick-amount-btn").forEach((item) => item.classList.remove("active"));
+        btn.classList.add("active");
+        updateAmountUI();
+      });
+    });
+
+    continueBtn.onclick = () => {
+      const amount = Number(amountInput.value);
+      showMessage("", "error");
+
+      if (!amount || amount <= 0) {
+        showMessage("Enter a valid withdrawal amount.", "error");
+        return;
+      }
+
+      updateAmountUI();
+      resetPin();
+      pinModal.classList.add("show");
+    };
+
+    function addPin(value) {
+      if (pin.length >= 4) return;
+      pin += value;
+      updateDots();
+    }
+
+    function removePin() {
+      pin = pin.slice(0, -1);
+      updateDots();
+    }
+
+    async function submitWithdraw() {
+      if (pin.length !== 4) {
+        showMessage("Enter your complete 4-digit PIN.", "error");
+        closePinModal();
+        return;
+      }
+
+      continueBtn.disabled = true;
+      continueBtn.querySelector(".btn-text").textContent = "Processing...";
+
+      try {
+        const res = await fetch(`${globalThis.FastPay?.getApiBase?.() || "http://localhost:8080"}/wallet/savings/withdraw`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            savingsId,
+            amount: Number(amountInput.value),
+            pin
+          })
+        });
+
+        const parsed = globalThis.FastPay?.readResponse
+          ? await globalThis.FastPay.readResponse(res)
+          : { ok: res.ok, status: res.status, text: await res.text(), data: null };
+
+        if (!parsed.ok) {
+          throw new Error(globalThis.FastPay?.extractMessage?.(parsed, "Withdrawal failed") || "Withdrawal failed");
+        }
+
+        closePinModal();
+        showMessage("Withdrawal successful. Your wallet balance will update shortly.", "success");
+        setTimeout(() => {
+          globalThis.location.href = "saving.html";
+        }, 1200);
+      } catch (e) {
+        closePinModal();
+        showMessage(e.message || "Withdrawal failed", "error");
+      } finally {
+        continueBtn.disabled = false;
+        continueBtn.querySelector(".btn-text").textContent = "Continue";
+      }
+    }
+
+    updateAmountUI();
+  </script>
+</body>
+</html>
